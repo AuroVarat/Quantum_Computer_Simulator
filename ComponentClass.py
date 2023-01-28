@@ -21,20 +21,16 @@ class QbitRegister:
     def __str__(self):
         return str(self.basisSpace.real)
         
-    def op(self, t, i):
-        # I_{2^i}
+    def operation(self, t, i):
+     
         eyeL = np.eye(2**i, dtype=np.complex)
-
-        # I_{2^{n-i-1}}
-        # t.shape[0]**0.5 denotes how many bits t applies to
-        # in case of NOT, t.shape[0]**0.5 == 1
         eyeR = np.eye(2**(self.nqbits - i - int(t.shape[0]**0.5)), 
             dtype = np.complex)
 
         # eyeL ⊗ t ⊗ eyeR
         t_all = np.kron(np.kron(eyeL, t), eyeR)
 
-        # apply transformation to state (multiplication)
+        # Apply the gate
         self.basisSpace = np.matmul(t_all, self.basisSpace)
         
     # Hadamard gate
@@ -43,7 +39,7 @@ class QbitRegister:
             [1,1],
             [1,-1]
         ])    
-        self.op(h_matrix, i)
+        self.operation(h_matrix, i)
 
     # T gate
     def t(self, i):
@@ -51,7 +47,7 @@ class QbitRegister:
             [1,0],
             [0,isq2 + isq2 * 1j]
         ])
-        self.op(t_matrix, i)
+        self.operation(t_matrix, i)
 
     # S gate
     def s(self, i):
@@ -59,7 +55,7 @@ class QbitRegister:
             [1,0],
             [0,0+1j]
         ])    
-        self.op(s_matrix,i)
+        self.operation(s_matrix,i)
 
     # CNOT gate
     def cnot(self, i):
@@ -69,14 +65,14 @@ class QbitRegister:
             [0, 0, 0, 1],
             [0, 0, 1, 0]
         ])
-        self.op(cnot_matrix, i)
+        self.operation(cnot_matrix, i)
         
     def phase_shift(self, i, phi):
         phase_shift_matrix = np.array([
             [1, 0],
             [0, np.exp(1j * phi)]
         ])
-        self.op(phase_shift_matrix, i)
+        self.operation(phase_shift_matrix, i)
         
     # Swap two qubits
     def swap(self, i):
@@ -86,7 +82,7 @@ class QbitRegister:
             [0, 1, 0, 0],
             [0, 0, 0, 1]
         ])
-        self.op(swap_matrix, i)
+        self.operation(swap_matrix, i)
 
     # def hadamard(self,qbit,n=(1,)):
     #     n = slice(*n)
