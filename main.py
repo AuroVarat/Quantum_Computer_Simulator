@@ -1,13 +1,18 @@
-from CircuitClass import Gate, QubitRegister
+from CircuitClass import QbitRegister
+from CircuitClass import Gate as g
+
 import numpy as np
 
 input_file = np.genfromtxt('input.dat', delimiter=',', dtype=int)
 
-#Initialise a 3 qubit register
+# Pure State Network check the image in the folder
+register = QbitRegister(input_file) #initialise qbit register
+h = g.hadamard(register,(1,)) # apply hadamard gate to qbit 1
+p = g.phase_shift(h,(1,),2*np.pi) #apply phase shift to qbit 1
+p = lambda phi: g.phase_shift(p,(1,),phi+np.pi/2) #apply phase shift to qbit 1
 
-register = QubitRegister(input_file)
 
-# Apply hadamard on the first qubit
-print(register[0]@Gate(2).hadamard)
-print(register[0]@Gate(2).phase_shift(2*np.pi))
-
+#EPR Paradox
+register = QbitRegister([0,0]) #initialise qbit register
+h = g.hadamard(register,(1,)) # apply hadamard gate to qbit 1
+cnot = g.cnot(h,[1,2]) #apply cnot gate with qbit 1 as target and 2 as control
