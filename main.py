@@ -12,7 +12,7 @@ p = g.phase_shift(h,(1,),2*np.pi) #apply phase shift to qbit 1
 p = lambda phi: g.phase_shift(p,(1,),phi+np.pi/2) #apply phase shift to qbit 1
 
 
-#EPR Paradox
-register = QbitRegister([0,0], name ="4EPR") #initialise qbit register
-h = g.hadamard(register,(1,)) # apply hadamard gate to qbit 1
-cnot = g.cnot(h,[1,2]) #apply cnot gate with qbit 1 as target and 2 as control
+#EPR Paradox/ uncomment below to run
+# register = QbitRegister([0,0], name ="4EPR") #initialise qbit register
+# h = g.hadamard(register,(1,)) # apply hadamard gate to qbit 1
+# cnot = g.cnot(h,[1,2]) #apply cnot gate with qbit 1 as target and 2 as control
