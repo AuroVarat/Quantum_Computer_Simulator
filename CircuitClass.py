@@ -4,12 +4,12 @@ from art import *
 # class for qunatum gates
 class QbitRegister:
  
-    def __new__(self,qbits_init=[0,0,0]):
+    def __new__(self,qbits_init=[0,0,0],name = "qregister"):
         basisSpace = np.identity(2,dtype = 'complex_')
         qbits = np.take(basisSpace, qbits_init,axis=0)
         tprint("Quantum",font="starwars")
         tprint(" ---------------------------",font="digital")
-        print("Quantum Register Initialised: |"+len(qbits_init)*"{}".format(*qbits_init)+">")
+        print("Quantum Register {} Initialised: |".format(name)+len(qbits_init)*"{}".format(*qbits_init)+">")
         return qbits
         
         
