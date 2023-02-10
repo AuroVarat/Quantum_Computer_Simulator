@@ -22,6 +22,7 @@ class QbitRegister:
         """
         
         self.nqbits = nqbits
+        self.N = 2**self.nqbits
         self.basisSpace = np.zeros(2**self.nqbits, dtype=np.int) #  basis state formed by tensor product of all qbits
         self.basisSpace[0] = 1 #all qbits are by default initialised to |0>
        
@@ -44,7 +45,6 @@ class QbitRegister:
    
         """
         tprint(str(self.basisSpace.real)+"\n",font="monospace")
-        print("Register in the {} dimension basis space.\n".format(self.nqbits))
         return self.basisSpace
             
     def operation(self, gate, ith_qbit):
@@ -66,8 +66,9 @@ class QbitRegister:
         # Apply the gate
         self.basisSpace = np.matmul(t_all, self.basisSpace)
         
+    #Single Qbit Gates
     # Hadamard gate
-    def hadamard(self, ith_qbit):
+    def hadamard(self, ith_qbit = None ):
         """
         Hadamard Gate
 
@@ -76,14 +77,48 @@ class QbitRegister:
         """
         tprint("Hadamard Operation",font="monospace")
         tprint(" ---------------------------",font="monospace")
-        
         h_matrix = isq2 * np.array([
             [1,1],
             [1,-1]
         ])    
-        self.operation(h_matrix, ith_qbit)
+        
+        h_matrix_0 = isq2 * np.array([
+            [1,1],
+            [1,-1]
+        ])    
+        
+     
+        if ith_qbit != None:
+         
+         
+            self.operation(h_matrix, ith_qbit)
+            
+        else:
+          
+            for _ in range(self.nqbits-1):
+                h_matrix = np.kron(h_matrix,h_matrix_0)
+      
+            self.basisSpace = np.matmul(h_matrix, self.basisSpace)
+            
+        
+    
+      
 
+    def phase_shift(self, ith_qbit, phi):
+        """Phase Shift Gate
+        Args:
+            ith_qbit (nth qubit): Selects the qubit to be operated on
+            phi (float): Phase shift angle in radians
+        """
+        tprint("Phase Shift Operation with phi = {}° degrees".format(np.rad2deg(phi)),font="monospace")
+        tprint(" ---------------------------",font="monospace")
+        phase_shift_matrix = np.array([
+            [1, 0],
+            [0, np.exp(1j * phi)]
+        ])
+        self.operation(phase_shift_matrix, ith_qbit)
    
+   # Two Qbit Gates
     # CNOT gate
     def cnot(self, ith_qbit):
         """CNOT Gate
@@ -101,36 +136,51 @@ class QbitRegister:
         ])
         self.operation(cnot_matrix, ith_qbit)
         
-    def phase_shift(self, ith_qbit, phi):
-        """Phase Shift Gate
-        Args:
-            ith_qbit (nth qubit): Selects the qubit to be operated on
-            phi (float): Phase shift angle in radians
-        """
-        tprint("Phase Shift Operation with phi = {}° degrees".format(np.rad2deg(phi)),font="monospace")
-        tprint(" ---------------------------",font="monospace")
-        phase_shift_matrix = np.array([
-            [1, 0],
-            [0, np.exp(1j * phi)]
-        ])
-        self.operation(phase_shift_matrix, ith_qbit)
+    # Oracles
+    def oracle(self, winner = 4):
+        """" this is the oracle function that performs a conditional phase shift for the item we're looking for  """
+        tprint("Oracle function", font="monospace")
+        tprint(" ---------------------------", font="monospace")
+
+
+        oracle_matrix = np.eye(self.N)
+        oracle_matrix[winner-1, winner-1] = -1  # flip sign of entry corresponding to w
+        # is a sparse matrix, make it faster
+
+        # Apply the gate
+        self.basisSpace = np.matmul(oracle_matrix, self.basisSpace)
         
+    
     # Controlled Phase Shift
-    def control_phase_shift(self, ith_qbit, phi):
+    def control_phase_shift(self, except_state = 1, phi = np.pi):
         """Controlled Phase Shift Gate
 
         Args:
             ith_qbit (nth qubit): Selects the qubit to be operated on
             phi (float): Phase shift angle in radians
         """
-        control_phase_shift_matrix = np.array([
-            [1, 0, 0, 0],
-            [0, 1, 0, 0],
-            [0, 0, 1, 0],
-            [0, 0, 0, np.exp(1j * phi)]
-        ])
-        self.operation(control_phase_shift_matrix, ith_qbit)
+        tprint("Controlled Phase Shift Operation with phi = {:.2f}° degrees".format(np.rad2deg(phi)),font="monospace")
+        tprint(" ---------------------------",font="monospace")
         
+        except_state -= 1 
+        diagonal = np.full(2**self.nqbits, np.exp(1j * phi))
+        diagonal[except_state] = 1
+        control_phase_shift_matrix = np.diag(diagonal)
+        
+    
+        self.basisSpace = np.matmul(control_phase_shift_matrix, self.basisSpace)
+        
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
         
     # Incomplete gates below / no usage yet
     # Swap two qubits
@@ -174,18 +224,6 @@ class QbitRegister:
         ])    
         self.operation(s_matrix,i)
 
-    def oracle(self, w):
-        """" this is the oracle function that performs a conditional phase shift for the item we're looking for  """
-        tprint("Oracle function", font="monospace")
-        tprint(" ---------------------------", font="monospace")
-
-
-        oracle_matrix = np.eye(2**(self.nqbits))
-        oracle_matrix[w - 1, w - 1] = -1  # flip sign of entry corresponding to w
-        # is a sparse matrix, make it faster
-
-        # Apply the gate
-        self.basisSpace = np.matmul(oracle_matrix, self.basisSpace)
 
     # def hadamard(self,qbit,n=(1,)):
     #     n = slice(*n)
