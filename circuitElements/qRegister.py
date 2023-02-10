@@ -26,7 +26,7 @@ class QbitRegister(SingleQbitGate,TwoQbitGate,MultiQbitGate):
         
         self.nqbits = nqbits
         self.N = 2**self.nqbits
-        self.basisSpace = np.zeros(2**self.nqbits, dtype=np.int) #  basis state formed by tensor product of all qbits
+        self.basisSpace = np.zeros(2**self.nqbits, dtype=int) #  basis state formed by tensor product of all qbits
         self.basisSpace[0] = 1 #all qbits are by default initialised to |0>
        
         #Pretty printing showing the initialisation of the quantum register

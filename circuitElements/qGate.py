@@ -1,7 +1,7 @@
 
 import numpy as np
 from art import *
-
+from scipy.linalg import hadamard
 isq2 = 1/np.sqrt(2) # 1/sqrt(2)
 
 
@@ -44,12 +44,7 @@ class SingleQbitGate():
             [1,-1]
         ])    
         
-        h_matrix_0 = isq2 * np.array([
-            [1,1],
-            [1,-1]
-        ])    
-        
-     
+       
         if ith_qbit != None:
          
          
@@ -57,10 +52,9 @@ class SingleQbitGate():
             
         else:
           
-            for _ in range(self.nqbits-1):
-                h_matrix = np.kron(h_matrix,h_matrix_0)
+       
       
-            self.basisSpace = np.matmul(h_matrix, self.basisSpace)
+            self.basisSpace = (isq2**self.nqbits)*np.matmul(hadamard(int(2**self.nqbits)), self.basisSpace)
             
         
     
