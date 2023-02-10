@@ -4,8 +4,8 @@ from circuitElements.qRegister import QbitRegister
 from tqdm import tqdm
 
 #%%
-# Simple Grover's Algorithm
-register = QbitRegister(3, name = "SampleHadamardOperation") #initialise qbit register
+# Simple Grover's Algorithm #ha
+register = QbitRegister(11, name = "SampleHadamardOperation") #initialise qbit register
 
 def grover_iterate():
     register.hadamard() # apply hadamard gate to register 
