@@ -174,17 +174,18 @@ class QbitRegister:
         ])    
         self.operation(s_matrix,i)
 
-    def oracle(self, i, N, w):
+    def oracle(self, w):
         """" this is the oracle function that performs a conditional phase shift for the item we're looking for  """
         tprint("Oracle function", font="monospace")
         tprint(" ---------------------------", font="monospace")
 
 
-        oracle_matrix = np.eye(N)
+        oracle_matrix = np.eye(2**(self.nqbits))
         oracle_matrix[w - 1, w - 1] = -1  # flip sign of entry corresponding to w
         # is a sparse matrix, make it faster
 
-        self.operation(oracle_matrix, i)
+        # Apply the gate
+        self.basisSpace = np.matmul(oracle_matrix, self.basisSpace)
 
     # def hadamard(self,qbit,n=(1,)):
     #     n = slice(*n)
