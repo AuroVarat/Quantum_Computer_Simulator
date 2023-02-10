@@ -37,8 +37,8 @@ class SingleQbitGate():
         Args:
             ith_qbit (nth qubit): Selects the qubit to be operated on
         """
-        tprint("Hadamard Operation",font="monospace")
-        tprint(" ---------------------------",font="monospace")
+        # tprint("Hadamard Operation",font="monospace")
+        # tprint(" ---------------------------",font="monospace")
         h_matrix = isq2 * np.array([
             [1,1],
             [1,-1]
@@ -72,8 +72,8 @@ class SingleQbitGate():
             ith_qbit (nth qubit): Selects the qubit to be operated on
             phi (float): Phase shift angle in radians
         """
-        tprint("Phase Shift Operation with phi = {}° degrees".format(np.rad2deg(phi)),font="monospace")
-        tprint(" ---------------------------",font="monospace")
+        # tprint("Phase Shift Operation with phi = {}° degrees".format(np.rad2deg(phi)),font="monospace")
+        # tprint(" ---------------------------",font="monospace")
         phase_shift_matrix = np.array([
             [1, 0],
             [0, np.exp(1j * phi)]
@@ -106,8 +106,7 @@ class TwoQbitGate():
             control_qbit (nth qubit): Selects the control qubit
             target_qbit (nth qubit): Selects the target qubit
         """
-        tprint("Controlled Not Operation",font="monospace")
-        tprint(" ---------------------------",font="monospace")
+      
         cnot_matrix = np.array([
             [1, 0, 0, 0],
             [0, 1, 0, 0],
@@ -126,8 +125,7 @@ class MultiQbitGate():
             ith_qbit (nth qubit): Selects the qubit to be operated on
             phi (float): Phase shift angle in radians
         """
-        tprint("Controlled Phase Shift Operation with phi = {:.2f}° degrees".format(np.rad2deg(phi)),font="monospace")
-        tprint(" ---------------------------",font="monospace")
+
         
         except_state -= 1 
         diagonal = np.full(2**self.nqbits, np.exp(1j * phi))

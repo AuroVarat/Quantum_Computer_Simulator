@@ -2,7 +2,9 @@
 from circuitElements.qGate import SingleQbitGate,TwoQbitGate,MultiQbitGate
 import numpy as np
 from art import *
-
+import matplotlib.pyplot as plt
+import seaborn as sns
+sns.set_style("white")
 isq2 = 1/np.sqrt(2) # 1/sqrt(2)
 
 
@@ -48,13 +50,19 @@ class QbitRegister(SingleQbitGate,TwoQbitGate,MultiQbitGate):
         tprint(str(self.basisSpace.real)+"\n",font="monospace")
         return self.basisSpace
   
+    def visualise(self):
+        """Visualises the quantum register in the basis space using matplotlib bar chart"""
+
+        plt.bar([format(i, f'0{self.nqbits}b') for i in range(self.N)],self.basisSpace.real)
+        plt.ylabel("Proabability")
+        plt.xlabel("State")
+        plt.show()
    
 
     # Oracles
     def oracle(self, winner = 4):
         """" this is the oracle function that performs a conditional phase shift for the item we're looking for  """
-        tprint("Oracle function", font="monospace")
-        tprint(" ---------------------------", font="monospace")
+    
 
 
         oracle_matrix = np.eye(self.N)
