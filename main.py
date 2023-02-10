@@ -17,6 +17,6 @@ def grover_iterate():
 for i in tqdm(range(1)):
     grover_iterate()
 #%%
-
+np.max(register.output())
 #%%
 register.visualise()
