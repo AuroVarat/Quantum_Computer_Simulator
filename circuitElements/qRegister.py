@@ -74,7 +74,7 @@ class QbitRegister(SingleQbitGate,TwoQbitGate,MultiQbitGate):
         
 
        
-       
+  
        
        
        
