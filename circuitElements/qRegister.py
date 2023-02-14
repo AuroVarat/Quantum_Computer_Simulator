@@ -3,8 +3,8 @@ from circuitElements.qGate import SingleQbitGate,TwoQbitGate,MultiQbitGate
 import numpy as np
 from art import *
 import matplotlib.pyplot as plt
-import seaborn as sns
-sns.set_style("white")
+# import seaborn as sns
+# sns.set_style("white")
 isq2 = 1/np.sqrt(2) # 1/sqrt(2)
 
 

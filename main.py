@@ -20,7 +20,7 @@ def main():
 
     for i in tqdm(range(100)):
         grover_iterate()
-        if np.max(register.basisSpace.real) > 0.9:
+        if np.max(register.basisSpace.real) > 0.99:
             break
     #%%
     print("Found word: '{}' at position {} in the dictionary of five words".format(all_5_letter_words[np.argmax(register.basisSpace.real)],np.argmax(register.basisSpace.real)))
@@ -28,11 +28,11 @@ def main():
     #%%
 
 if __name__ == '__main__':
-    pr = cProfile.Profile()
-    pr.enable()
+    # pr = cProfile.Profile()
+    # pr.enable()
 
     main()
 
-    pr.disable()
-    pr.print_stats(sort='time')
+    # pr.disable()
+    # pr.print_stats(sort='time')
   
