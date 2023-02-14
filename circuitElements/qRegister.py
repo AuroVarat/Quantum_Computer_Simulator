@@ -15,7 +15,7 @@ class QbitRegister(SingleQbitGate,TwoQbitGate,MultiQbitGate):
     and contains methods to apply gates to the qbits in the register. 
     """
  
-    def __init__(self,nqbits=2,dataset=[],target = "",name = "qregister"):
+    def __init__(self,nqbits=2,name = "qregister"):
         """Defines a Quantum Register with nqbits qbits and initialises all qbits to |0>.
         The Quantum Register is represented by a vector in the 2^nqbits dimensional basis space, i.e. the Hilbert Spac of the nqbits.
 
@@ -28,9 +28,7 @@ class QbitRegister(SingleQbitGate,TwoQbitGate,MultiQbitGate):
         self.N = 2**self.nqbits
         self.basisSpace = np.zeros(2**self.nqbits, dtype=int) #  basis state formed by tensor product of all qbits
         self.basisSpace[0] = 1 #all qbits are by default initialised to |0>
-        self.target = target
-        oracle_values = np.power(-1,self.f(dataset))
-        self.oracle_matrix = np.diag(oracle_values) # make a diagonal matrix with the oracle values  
+        
        
         #Pretty printing showing the initialisation of the quantum register
         tprint("Quantum",font="starwars")
@@ -43,6 +41,16 @@ class QbitRegister(SingleQbitGate,TwoQbitGate,MultiQbitGate):
         """
         tprint(str(self.basisSpace.real)+"\n",font="monospace")
         return "Register in the {} dimension basis space.\n".format(self.nqbits)
+    
+    def grover_dict_search(self,dataset=[],target = "",accuracy=0.9):
+        self.target = target
+        oracle_values = np.power(-1,self.f(dataset))
+        self.oracle_matrix = np.diag(oracle_values) # make a diagonal matrix with the oracle values 
+        
+        number_of_rot = np.arcsin(1/np.sqrt(self.N))
+        
+        
+        
 
     def output(self):
         """Prints the quantum register in the basis space and returns the circuit output
@@ -77,7 +85,7 @@ class QbitRegister(SingleQbitGate,TwoQbitGate,MultiQbitGate):
         
 
        
-       
+  
        
        
        

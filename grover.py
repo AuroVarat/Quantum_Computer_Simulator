@@ -9,7 +9,8 @@ def main():
     print(all_5_letter_words.shape)
     #%%
     # Simple Grover's Algorithm #ha
-    register = QbitRegister(13, dataset = all_5_letter_words,target="atoms",name = "GROVER") #initialise qbit register
+    register = QbitRegister(13,name = "GROVER") #initialise qbit register
+    register.grover_init(dataset = all_5_letter_words,target="atoms",)
     register.hadamard() # apply hadamard gate to register 
     def grover_iterate():
 
