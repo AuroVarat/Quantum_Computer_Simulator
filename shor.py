@@ -5,7 +5,7 @@ from tqdm import tqdm
 
 
 def main(N):
-    register =  QbitRegister(13, dataset = all_5_letter_words,target="atoms",name = "GROVER") #initialise qbit register
+    register =  QbitRegister(3,name = "SHOR") #initialise qbit register
 
     
     
