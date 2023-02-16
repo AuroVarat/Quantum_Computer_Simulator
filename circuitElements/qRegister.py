@@ -30,7 +30,7 @@ class QbitRegister(SingleQbitGate,TwoQbitGate,MultiQbitGate):
         self.N = 2**self.nqbits
         self.basisSpace = np.zeros(2**self.nqbits, dtype=int) #  basis state formed by tensor product of all qbits
         self.basisSpace[0] = 1 #all qbits are by default initialised to |0>
-        
+        self.rotations = int(np.ceil((((np.pi/2)/np.arcsin(1/np.sqrt(self.N)))-1)/2))
        
         #Pretty printing showing the initialisation of the quantum register
         tprint("Quantum",font="starwars")
@@ -76,13 +76,14 @@ class QbitRegister(SingleQbitGate,TwoQbitGate,MultiQbitGate):
         # Apply the gate
         self.basisSpace = np.matmul(self.oracle_matrix, self.basisSpace)
         
-
+       
+        
     def grover_dict_search(self,dataset=[],target = "",accuracy=0.9):
         self.target = target
         oracle_values = np.power(-1,self.f(dataset))
         self.oracle_matrix = np.diag(oracle_values) # make a diagonal matrix with the oracle values 
         
-        number_of_rot = int(np.ceil((((np.pi/2)/np.arcsin(1/np.sqrt(self.N)))-1)/2))
+
       
         self.hadamard() # apply hadamard gate to register 
         def grover_iterate():
@@ -92,7 +93,7 @@ class QbitRegister(SingleQbitGate,TwoQbitGate,MultiQbitGate):
             self.control_phase_shift(except_state=1,phi=np.pi) #apply phase shift to qbit 2
             self.hadamard() # apply hadamard gate to qbit 1
 
-        for _ in tqdm(range(number_of_rot)):
+        for _ in tqdm(range(self.rotations)):
             grover_iterate()
             if np.max(self.basisSpace.real) > accuracy:
                 break
