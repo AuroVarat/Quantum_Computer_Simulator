@@ -2,29 +2,18 @@ import cProfile
 import numpy as np
 from circuitElements.qRegister import QbitRegister
 from tqdm import tqdm
+
 def main():
     #%%
-    all_5_letter_words = np.genfromtxt('dictionary.txt',dtype=str)
-    all_5_letter_words=np.pad(all_5_letter_words,(0,(2**13)-all_5_letter_words.size),mode='constant',constant_values=' ') #blank words to fill up the rest of the register states
-    print(all_5_letter_words.shape)
+    dictionary = np.genfromtxt('dictionary.txt',dtype=str)
+  
+
     #%%
     # Simple Grover's Algorithm #ha
     register = QbitRegister(13,name = "GROVER") #initialise qbit register
-    register.grover_init(dataset = all_5_letter_words,target="atoms",)
-    register.hadamard() # apply hadamard gate to register 
-    def grover_iterate():
-
-        register.oracle() # apply oracle gate to qbit 1 and 2
-        register.hadamard() # apply hadamard gate to the register
-        register.control_phase_shift(except_state=1,phi=np.pi) #apply phase shift to qbit 2
-        register.hadamard() # apply hadamard gate to qbit 1
-
-    for i in tqdm(range(100)):
-        grover_iterate()
-        if np.max(register.basisSpace.real) > 0.99:
-            break
+    register.grover_dict_search(dataset = dictionary,target="atoms")
     #%%
-    print("Found word: '{}' at position {} in the dictionary of five words".format(all_5_letter_words[np.argmax(register.basisSpace.real)],np.argmax(register.basisSpace.real)))
+    print("Found word: '{}' at position {} in the dictionary of five words".format(dictionary[np.argmax(register.basisSpace.real)],np.argmax(register.basisSpace.real)))
     register.visualise()
     #%%
 
