@@ -3,6 +3,7 @@ from circuitElements.qGate import SingleQbitGate,TwoQbitGate,MultiQbitGate
 import numpy as np
 from art import *
 import matplotlib.pyplot as plt
+
 from tqdm import tqdm
 # import seaborn as sns
 # sns.set_style("white")
@@ -43,21 +44,6 @@ class QbitRegister(SingleQbitGate,TwoQbitGate,MultiQbitGate):
         tprint(str(self.basisSpace.real)+"\n",font="monospace")
         return "Register in the {} dimension basis space.\n".format(self.nqbits)
     
-    
-    def number_of_rotation(self):
-        """Calculates the number of times the Grover's Algorithm needs to be repeated to achieve a desired accuracy.
-        Returns:
-            (int): Number of times the Grover's Algorithm needs to be repeated to achieve a desired accuracy.
-        """
-        return int(np.round(((np.pi/2)/(np.arcsin(1/np.sqrt(self.N)))-1)/2))
-    
-    def dict_search_oracle_init(self,dataset=[],target = ""):
-        #generate the oracle matrix
-        self.target = target
-        oracle_values = np.power(-1,self.f(dataset))
-        self.oracle_matrix = np.diag(oracle_values) # make a diagonal matrix with the oracle values 
-        
-        
 
     def output(self):
         """Prints the quantum register in the basis space and returns the circuit output
@@ -91,7 +77,27 @@ class QbitRegister(SingleQbitGate,TwoQbitGate,MultiQbitGate):
         self.basisSpace = np.matmul(self.oracle_matrix, self.basisSpace)
         
 
-       
+    def grover_dict_search(self,dataset=[],target = "",accuracy=0.9):
+        self.target = target
+        oracle_values = np.power(-1,self.f(dataset))
+        self.oracle_matrix = np.diag(oracle_values) # make a diagonal matrix with the oracle values 
+        
+        number_of_rot = int(np.ceil((((np.pi/2)/np.arcsin(1/np.sqrt(self.N)))-1)/2))
+      
+        self.hadamard() # apply hadamard gate to register 
+        def grover_iterate():
+
+            self.oracle() # apply oracle gate to qbit 1 and 2
+            self.hadamard() # apply hadamard gate to the register
+            self.control_phase_shift(except_state=1,phi=np.pi) #apply phase shift to qbit 2
+            self.hadamard() # apply hadamard gate to qbit 1
+
+        for _ in tqdm(range(number_of_rot)):
+            grover_iterate()
+            if np.max(self.basisSpace.real) > accuracy:
+                break
+        
+        
   
        
        
