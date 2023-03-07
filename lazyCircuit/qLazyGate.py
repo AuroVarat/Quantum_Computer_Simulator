@@ -28,33 +28,20 @@ class SingleQbitGate():
         self.basisSpace = np.matmul(t_all, self.basisSpace)
     #Single Qbit Gates
     
-    
-    # Hadamard gate
-    def hadamard(self, ith_qbit = None ):
-        """
-        Hadamard Gate
-
-        Args:
-            ith_qbit (nth qubit): Selects the qubit to be operated on
-        """
-        # tprint("Hadamard Operation",font="monospace")
-        # tprint(" ---------------------------",font="monospace")
-        h_matrix = isq2 * np.array([
-            [1,1],
-            [1,-1]
-        ])    
+ 
+    def hadamard(qbit=None,except_state=None):
+        # h = lambda qubit : [[1, 0], [isq2, isq2]] if np.array_equal(qubit,[1,0]) else qubit
         
-       
-        if ith_qbit != None:
-         
-         
-            self.operation(h_matrix, ith_qbit)
-            
-        else:
-          
-       
+        return lambda qubits : np.where(qubits == [1,0],[isq2, isq2],qubits)
+        # if qbit != None:
+ 
+        #     return lambda qubits :np.where(h )     h(qubits[qbit])
+        # elif except_state:
+        #     return lambda qubits : h(qubits[~except_state])
+        # else:
+        #     return lambda qubits : (h(q) for q in qubits)
       
-            self.basisSpace = (isq2**self.nqbits)*np.matmul(hadamard(int(2**self.nqbits)), self.basisSpace)
+      
             
         
     
@@ -73,19 +60,6 @@ class SingleQbitGate():
             [0, np.exp(1j * phi)]
         ])
         self.operation(phase_shift_matrix, ith_qbit)
-        
-    def x(self,ith_qbit):
-        """Not Gate
-        Args:
-            ith_qbit (nth qubit): Selects the qubit to be operated on
-        """
-        # tprint("Not Operation",font="monospace")
-        # tprint(" ---------------------------",font="monospace")
-        not_matrix = np.array([
-            [0, 1],
-            [1, 0]
-        ])
-        self.operation(not_matrix, ith_qbit)
    
 class TwoQbitGate():
     def operation(self, gate, ith_qbit):
@@ -123,28 +97,7 @@ class TwoQbitGate():
         self.operation(cnot_matrix, control_qbit)
         
         
-    def swap(self,control,target):
-        """Swap Gate
-        Args:
-            other (nth qubit): Selects the qubit to be swapped
-        """
-        # tprint("Swap Operation",font="monospace")
-        # tprint(" ---------------------------",font="monospace")
-        
-        
-        swap_matrix = np.array([
-            [1, 0, 0, 0],
-            [0, 0, 1, 0],
-            [0, 1, 0, 0],
-            [0, 0, 0, 1]
-        ])
-        
-        if target == control + 1:
-            self.operation(swap_matrix, control)
-        else:
-            self.swap_over_distance(control,target)
-            
-    def swap_over_distance(self,control,target):
+    def swap_and_unswap(self,control,target):
         """Swap Gate
         Args:
             other (nth qubit): Selects the qubit to be swapped
@@ -160,13 +113,14 @@ class TwoQbitGate():
         ])
         
         #swap
-        for _ in range(control,target):
-           
+        for _ in range(1,target-control):
+            target = target - 1
             self.operation(swap_matrix, target)
         
         #unswap
         
-        for _ in range(target-2,control-1,-1):
+        for _ in range(1,target-control):
+                control = control + 1
                 self.operation(swap_matrix, control)
       
         

@@ -1,7 +1,17 @@
 #%%
-import numpy as np
+def test(n):
+    for i in range(n):
+        yield (0,1)
+# %%
+q = test(3)
+print(next(q))
 
-b = np.arange(4)
-a = np.arange(10)
-np.equal(a,b)
+# %%
+print(next(q))
+
+#%%
+
+
+for qubit in q:
+    print(qubit)
 # %%

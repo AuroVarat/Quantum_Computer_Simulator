@@ -73,19 +73,6 @@ class SingleQbitGate():
             [0, np.exp(1j * phi)]
         ])
         self.operation(phase_shift_matrix, ith_qbit)
-        
-    def x(self,ith_qbit):
-        """Not Gate
-        Args:
-            ith_qbit (nth qubit): Selects the qubit to be operated on
-        """
-        # tprint("Not Operation",font="monospace")
-        # tprint(" ---------------------------",font="monospace")
-        not_matrix = np.array([
-            [0, 1],
-            [1, 0]
-        ])
-        self.operation(not_matrix, ith_qbit)
    
 class TwoQbitGate():
     def operation(self, gate, ith_qbit):
@@ -123,28 +110,7 @@ class TwoQbitGate():
         self.operation(cnot_matrix, control_qbit)
         
         
-    def swap(self,control,target):
-        """Swap Gate
-        Args:
-            other (nth qubit): Selects the qubit to be swapped
-        """
-        # tprint("Swap Operation",font="monospace")
-        # tprint(" ---------------------------",font="monospace")
-        
-        
-        swap_matrix = np.array([
-            [1, 0, 0, 0],
-            [0, 0, 1, 0],
-            [0, 1, 0, 0],
-            [0, 0, 0, 1]
-        ])
-        
-        if target == control + 1:
-            self.operation(swap_matrix, control)
-        else:
-            self.swap_over_distance(control,target)
-            
-    def swap_over_distance(self,control,target):
+    def swap_and_unswap(self,control,target):
         """Swap Gate
         Args:
             other (nth qubit): Selects the qubit to be swapped
@@ -160,13 +126,14 @@ class TwoQbitGate():
         ])
         
         #swap
-        for _ in range(control,target):
-           
+        for _ in range(1,target-control):
+            target = target - 1
             self.operation(swap_matrix, target)
         
         #unswap
         
-        for _ in range(target-2,control-1,-1):
+        for _ in range(1,target-control):
+                control = control + 1
                 self.operation(swap_matrix, control)
       
         
