@@ -4,7 +4,7 @@ from circuitElements.qVisualiser import qVisualiser
 import numpy as np
 from art import *
 import matplotlib.pyplot as plt
-
+import matplotlib.animation as animation 
 from tqdm import tqdm
 # import seaborn as sns
 # sns.set_style("white")
@@ -31,8 +31,11 @@ class QbitRegister(SingleQbitGate,TwoQbitGate,MultiQbitGate,qVisualiser):
         self.N = 2**self.nqbits
         self.basisSpace = np.zeros(2**self.nqbits, dtype=int) #  basis state formed by tensor product of all qbits
         self.basisSpace[0] = 1 #all qbits are by default initialised to |0>
-        self.rotations = int(np.ceil((((np.pi/2)/np.arcsin(1/np.sqrt(self.N)))-1)/2))
+        self.rotations = int(np.ceil((((np.pi/2)/np.arcsin(1/np.sqrt(self.N)))-1)/2)) #set to optimum
+        
+        
         self.state_history = []
+        self.marked_state_history = []
         #Pretty printing showing the initialisation of the quantum register
         tprint("Quantum",font="starwars")
         tprint(" ---------------------------",font="digital")
@@ -58,16 +61,24 @@ class QbitRegister(SingleQbitGate,TwoQbitGate,MultiQbitGate,qVisualiser):
   
     
     def f(self,x):
-        return x == self.target 
+        return (x == self.target).any(axis=1)
     
     # Oracles
-    def oracle(self):
+    def applyOracle(self):
         """" this is the oracle function that performs a conditional phase shift for the item we're looking for  """
-    
-        # is a sparse matrix, make it faster
-
-        # Apply the gate
+  
         self.basisSpace = np.matmul(self.oracle_matrix, self.basisSpace)
+        
+    def create_oracle_matrix(self,dataset):
+       
+        oracle_values = np.power(-1, self.f(dataset))
+      
+        oracle_values = np.pad(oracle_values,(0,self.N-len(oracle_values)),'constant',constant_values=(1))
+        
+        
+        self.target_basis_Space = (oracle_values == -1)
+        self.oracle_matrix = np.diag(oracle_values) # make a diagonal matrix with the oracle values 
+        
     def Gram_Schmidt(self):
         a = self.target_basis_Space
        
@@ -84,31 +95,46 @@ class QbitRegister(SingleQbitGate,TwoQbitGate,MultiQbitGate,qVisualiser):
         
         self.state_history.append([x,y])
         
-    def grover_dict_search(self,dataset=[],target = "",accuracy=0.9):
-        self.target = target
-        self.target_basis_Space = self.f(dataset)
-        oracle_values = np.power(-1,self.target_basis_Space)
-        self.oracle_matrix = np.diag(oracle_values) # make a diagonal matrix with the oracle values 
+
         
+    def grover_search(self,dataset,target,accuracy=1.0):
+        
+        self.target = target
+ 
+        self.datasetSmall = dataset.shape[0]
 
+        self.create_oracle_matrix(dataset)
+        #self.marked_state_history.append(self.basisSpace.real[self.target_basis_Space])
 
-        self.hadamard() # apply hadamard gate to register 
-        self.gso()
+        # frames = [] # for storing the generated images
+        # fig = plt.figure()
+        # width = int(np.sqrt(self.datasetSmall))
+        self.hadamard() # apply hadamard gate to register
+        #frames.append([plt.imshow(self.basisSpace[:self.datasetSmall].real.reshape(width,width),animated=True,vmin=0,vmax = .1 )])
+        #plt.colorbar()
+        self.Gram_Schmidt()
         self.state_vector_projection()
+        #self.marked_state_history.append(self.basisSpace.real[self.target_basis_Space])
         def grover_iterate():
-
-            self.oracle() # apply oracle gate to qbit 1 and 2
+       
+            self.applyOracle() # apply oracle gate to qbit 1 and 2
             self.hadamard() # apply hadamard gate to the register
             self.control_phase_shift(except_state=1,phi=np.pi) #apply phase shift to qbit 2
             self.hadamard() # apply hadamard gate to qbit 1
-
+            #self.marked_state_history.append(self.basisSpace.real[self.target_basis_Space])
+            self.state_vector_projection()
+            #frames.append([plt.imshow(self.basisSpace[:self.datasetSmall].real.reshape(width,width),animated=True,vmin=0,vmax = .1)])
+        
         for _ in tqdm(range(self.rotations)):
             grover_iterate()
-            self.state_vector_projection()
-            if np.max(self.basisSpace.real) > accuracy:
-                break
-        
-        
+            
+            # if np.max(self.basisSpace.real) > accuracy:
+                
+            #     break
+        # ani = animation.ArtistAnimation(fig, frames, interval=1000, blit=True,
+        #                       )
+        # ani.save("result.mp4")
+        # np.savetxt("./state_history.txt",np.c_[self.state_history],delimiter=",")
   
        
    

@@ -17,8 +17,10 @@ class SingleQbitGate():
         
         ith_qbit = ith_qbit - 1 # removes 0th qubit and makes the first qubit -> 1 
         eyeL = np.eye(2**ith_qbit, dtype=np.complex)
+    
         eyeR = np.eye(2**(self.nqbits - ith_qbit - int(gate.shape[0]**0.5)), 
             dtype = np.complex)
+    
    
         # Tensor product of the gate and the identity matrices
         # eyeL ⊗ t ⊗ eyeR
@@ -28,6 +30,15 @@ class SingleQbitGate():
         self.basisSpace = np.matmul(t_all, self.basisSpace)
     #Single Qbit Gates
     
+    
+  
+
+    def sparseOperation():
+        """Sparse Operation to make the gate sparse
+        """
+        
+        
+
     
     # Hadamard gate
     def hadamard(self, ith_qbit = None ):
@@ -58,7 +69,7 @@ class SingleQbitGate():
             
         
     
-      
+
 
     def phase_shift(self, ith_qbit, phi):
         """Phase Shift Gate
@@ -86,7 +97,33 @@ class SingleQbitGate():
             [1, 0]
         ])
         self.operation(not_matrix, ith_qbit)
-   
+        
+    def y(self, ith_qbit):
+        """Pauli Y Gate
+        Args:
+            ith_qbit (nth qubit): Selects the qubit to be operated on
+        """
+        # tprint("Pauli Y Operation",font="monospace")
+        # tprint(" ---------------------------",font="monospace")
+        pauli_y_matrix = np.array([
+            [0, -1j],
+            [1j, 0]
+        ])
+        self.operation(pauli_y_matrix, ith_qbit)
+        
+    def z(self, ith_qbit):
+        """Pauli Z Gate
+        Args:
+            ith_qbit (nth qubit): Selects the qubit to be operated on
+        """
+        # tprint("Pauli Z Operation",font="monospace")
+        # tprint(" ---------------------------",font="monospace")
+        pauli_z_matrix = np.array([
+            [1, 0],
+            [0, -1]
+        ])
+        self.operation(pauli_z_matrix, ith_qbit)
+
 class TwoQbitGate():
     def operation(self, gate, ith_qbit):
         """Applies a gate to the ith and (i+1)th qbit in the quantum register. If the gate is a 2D gate then it is applied to the ith and (i+1)th qbit.
