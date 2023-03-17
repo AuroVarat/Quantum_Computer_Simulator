@@ -14,8 +14,7 @@ def main():
     def c_amod15(a,power):
         if a not in [2,4,7,8,11,13]:
             raise ValueError("'a' must be 2,4,7,8,11 or 13")
-        U = register(4,name="Phase Estimator")
-        
+    
         
         for _ in range(power):
             if a in [2,13]:

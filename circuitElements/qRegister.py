@@ -61,7 +61,7 @@ class QbitRegister(SingleQbitGate,TwoQbitGate,MultiQbitGate,qVisualiser):
   
     
     def f(self,x):
-        return (x == self.target).any(axis=1)
+        return x == self.target
     
     # Oracles
     def applyOracle(self):
@@ -110,14 +110,20 @@ class QbitRegister(SingleQbitGate,TwoQbitGate,MultiQbitGate,qVisualiser):
         # fig = plt.figure()
         # width = int(np.sqrt(self.datasetSmall))
         self.hadamard() # apply hadamard gate to register
+        print("After first hadamard")
+        self.output()
+        
         #frames.append([plt.imshow(self.basisSpace[:self.datasetSmall].real.reshape(width,width),animated=True,vmin=0,vmax = .1 )])
         #plt.colorbar()
+        
         self.Gram_Schmidt()
         self.state_vector_projection()
         #self.marked_state_history.append(self.basisSpace.real[self.target_basis_Space])
         def grover_iterate():
        
             self.applyOracle() # apply oracle gate to qbit 1 and 2
+            print("After oracle")
+            self.output()
             self.hadamard() # apply hadamard gate to the register
             self.control_phase_shift(except_state=1,phi=np.pi) #apply phase shift to qbit 2
             self.hadamard() # apply hadamard gate to qbit 1
@@ -127,9 +133,11 @@ class QbitRegister(SingleQbitGate,TwoQbitGate,MultiQbitGate,qVisualiser):
         
         for _ in tqdm(range(self.rotations)):
             grover_iterate()
-            
+        
             # if np.max(self.basisSpace.real) > accuracy:
-                
+        print("Found the target")
+        self.output()
+          
             #     break
         # ani = animation.ArtistAnimation(fig, frames, interval=1000, blit=True,
         #                       )

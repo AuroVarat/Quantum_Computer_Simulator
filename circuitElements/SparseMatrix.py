@@ -15,6 +15,12 @@ class SparseMatrix:
     def Multiply(self, m):
         assert self.Dimension == m.Dimension, "Incompatible Dimensions"
         p = SparseMatrix(self.Dimension)
+        #enumerate m
+        for ind,value in enumerate(m):
+            #enumerate column
+            for col_ind ,col in self.Columns[ind]:
+                p[col_ind, col] += col_ind * value
+                
         for me in m:
             column = self.Columns[me.Row]
             for ce in column:
