@@ -1,8 +1,11 @@
 from lazyRegister import QbitRegister
 import numpy as np
 import inspect
-from scipy.sparse import diags,identity,eye
+import cProfile
+import time
+from scipy.sparse import diags,identity,eye,csr_matrix
 from scipy.linalg import hadamard
+
 
 isq2 = 1/np.sqrt(2) # 1/sqrt(2)isq2 = 1/np.sqrt(2) # 1/sqrt(2)
 
@@ -10,39 +13,52 @@ isq2 = 1/np.sqrt(2) # 1/sqrt(2)isq2 = 1/np.sqrt(2) # 1/sqrt(2)
 from tqdm import tqdm
 from matplotlib import pyplot as plt
 
-nqubits = 12
+
+#take nqubits as input terminal
+import sys
+nqubits = int(sys.argv[1])
+
+
 max_dataset_size = 2**nqubits
 dataset_size = 2**nqubits
 assert dataset_size <= max_dataset_size, "dataset size must be less than or equal to 2**nqbits"
 def main():
     #%%
-    
-    
-    dataset = np.ones(dataset_size)
+    dataset = np.arange(0,dataset_size)
     target = np.random.randint(0,dataset_size)
-    dataset[target] = -1
-    oracle   = diags(dataset)
-   
-    # dataset = np.genfromtxt("b.txt")
-        
-    register = QbitRegister(nqubits)
-    register.hadamard()
-
-
-
-    for _ in tqdm(range(register.rotations)):
-        register.customGate(oracle,name="Oracle")
-        register.hadamard()
-        register.control_phase_shift(except_state=1,phi=np.pi)
-        register.hadamard()
-
-
-
-
-    register.measure(amax=True)
+    oracle = diags(np.where(dataset == target, -1, 1))
+    #oracle
+    def grover_iterate(nqubits,n):
+        qc = QbitRegister(nqubits)
+    
+        qc.addToCircuit(oracle)
+        qc.hadamard()
+        qc.mcz()  # multi-controlled-toffoli
+        qc.hadamard()
+     
+        # We will return the diffuser as a gate
+        U_s = qc.to_gate()
+        U_s = qc.power(U_s,n)
+        # U_s.name = "U$_s$"
+        return U_s
     
 
 
+
+    
+    t1= time.time()
+    
+    
+    Q = QbitRegister(nqubits)
+    Q.hadamard()
+
+    Q.addToCircuit(grover_iterate(nqubits,Q.rotations))
+   
+    Q.measure()
+    
+    t2 = time.time()
+
+    return t2-t1
     #%%
 
     # print(np.linalg.norm(register.basisSpace.real))
@@ -55,11 +71,12 @@ def main():
     #%%
 
 if __name__ == '__main__':
+    # print('profiling 2')
     # pr = cProfile.Profile()
     # pr.enable()
-
+   
     main()
-
+  
     # pr.disable()
     # pr.print_stats(sort='time')
   

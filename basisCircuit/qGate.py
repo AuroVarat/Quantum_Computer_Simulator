@@ -32,13 +32,6 @@ class SingleQbitGate():
     
     
   
-
-    def sparseOperation():
-        """Sparse Operation to make the gate sparse
-        """
-        
-        
-
     
     # Hadamard gate
     def hadamard(self, ith_qbit = None ):
@@ -63,10 +56,10 @@ class SingleQbitGate():
             
         else:
           
-       
+
       
             self.basisSpace = (isq2**self.nqbits)*np.matmul(hadamard(int(2**self.nqbits)), self.basisSpace)
-            
+          
         
     
 

@@ -1,6 +1,6 @@
 #%%
-from circuitElements.qGate import SingleQbitGate,TwoQbitGate,MultiQbitGate
-from circuitElements.qVisualiser import qVisualiser
+from qGate import SingleQbitGate,TwoQbitGate,MultiQbitGate
+from qVisualiser import qVisualiser
 import numpy as np
 from art import *
 import matplotlib.pyplot as plt
@@ -110,9 +110,7 @@ class QbitRegister(SingleQbitGate,TwoQbitGate,MultiQbitGate,qVisualiser):
         # fig = plt.figure()
         # width = int(np.sqrt(self.datasetSmall))
         self.hadamard() # apply hadamard gate to register
-        print("After first hadamard")
-        self.output()
-        
+     
         #frames.append([plt.imshow(self.basisSpace[:self.datasetSmall].real.reshape(width,width),animated=True,vmin=0,vmax = .1 )])
         #plt.colorbar()
         
@@ -122,8 +120,7 @@ class QbitRegister(SingleQbitGate,TwoQbitGate,MultiQbitGate,qVisualiser):
         def grover_iterate():
        
             self.applyOracle() # apply oracle gate to qbit 1 and 2
-            print("After oracle")
-            self.output()
+           
             self.hadamard() # apply hadamard gate to the register
             self.control_phase_shift(except_state=1,phi=np.pi) #apply phase shift to qbit 2
             self.hadamard() # apply hadamard gate to qbit 1

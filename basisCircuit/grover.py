@@ -1,12 +1,16 @@
 import cProfile
 import numpy as np
-from circuitElements.qRegister import QbitRegister
+from qRegister import QbitRegister
 from tqdm import tqdm
 from matplotlib import pyplot as plt
 
-nqbits = 3
-max_dataset_size = 2**nqbits
-dataset_size = 2**nqbits
+
+#take nqubits as input terminal
+import sys
+nqubits = int(sys.argv[1])
+
+max_dataset_size = 2**nqubits
+dataset_size = 2**nqubits
 assert dataset_size <= max_dataset_size, "dataset size must be less than or equal to 2**nqbits"
 def main():
     #%%
@@ -23,7 +27,7 @@ def main():
 
     #%%
     # Simple Grover's Algorithm #ha
-    register = QbitRegister(nqbits,name = "GROVER") #initialise qbit register
+    register = QbitRegister(nqubits,name = "GROVER") #initialise qbit register
   
     # register.hadamard() #apply hadamard to all qbits
     
