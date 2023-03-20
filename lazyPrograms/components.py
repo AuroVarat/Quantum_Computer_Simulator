@@ -33,7 +33,7 @@ class reusableComponents():
                 for m in range(j):
                 
                     qc.cp(int(m+1), int(j+1),phi=-np.pi/float(2**(j-m)))
-                print(j+1)
+        
                 qc.h(j+1)
                 
         

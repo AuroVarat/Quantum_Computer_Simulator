@@ -67,7 +67,9 @@ class LazyCircuit(QbitRegister):
         """
 
         if ith_qbit != None:
-            self.circuit = self.circuit(self.operation(gate,ith_qbit))
+            gate = self.operation(gate,ith_qbit)
+        
+            self.circuit = self.circuit(gate)
             self.circuitSeq.append((name,ith_qbit))
         else:
             self.circuit = self.circuit(gate)
@@ -89,13 +91,13 @@ class LazyCircuit(QbitRegister):
       
 
         #print a table containing the state and its probability only if probability is greater than 0.5%
-      
-        print("State\t\tProbability")
-        print("-----\t\t-----------")
-        for i in range(len(self.registerStates)):
-            #print if probability is greater than 0.5%
-            if state_probability[i] > 0.5:
-                print("{}\t\t{:.2f}%".format(self.registerStates[i],state_probability[i]*100))
+        if "Grover" in self.name or "grover" in self.name:
+            print("State\t\tProbability")
+            print("-----\t\t-----------")
+            for i in range(len(self.registerStates)):
+                #print if probability is greater than 0.5%
+                if state_probability[i] > 0.5:
+                    print("{}\t\t{:.2f}%".format(self.registerStates[i],state_probability[i]*100))
         print("Time taken to run the circuit: {:.2f} seconds".format(self.timer))
 
     

@@ -89,10 +89,10 @@ class QbitGate(gateMatrices,InputErrorCheck):
         """
         
         ith_qbit = ith_qbit - 1 # removes 0th qubit and makes the first qubit -> 1 
-        print(ith_qbit)
+
         eyeL = eye(2**ith_qbit, dtype=np.complex)
     
-        eyeR = eye(2**(self.nqbits - ith_qbit - int(gate.shape[0]**0.5)), 
+        eyeR = eye(2**(self.nqbits - ith_qbit - int(np.log2(gate.shape[0]))), 
             dtype = np.complex)
     
    
@@ -142,7 +142,7 @@ class QbitGate(gateMatrices,InputErrorCheck):
             self.addToCircuit(self.H_all,name=name)
        
         elif type(ith_qbit) == int:
-            print(self.H_2x2)
+         
             self.addToCircuit(self.H_2x2,ith_qbit,name=(name))
         elif len(ith_qbit) > 1 & self.is_series(ith_qbit):
             self.addToCircuit(self.H(len(ith_qbit)),ith_qbit[0],name=(name))

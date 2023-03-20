@@ -45,7 +45,7 @@ class gateMatrices():
         #Hadamard
         self.H = lambda N: self.root_factor(N) * hadamard(2**N) # Hadamard for n qubits
         self.H_all = self.H(self.nqbits)
-        self.H_2x2 = self.H(2)
+        self.H_2x2 = self.H(1)
         #V gate
         self.V = diags([1,1j],format='csr')
         #Pauli X and derivatives
