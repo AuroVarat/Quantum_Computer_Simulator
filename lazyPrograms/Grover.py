@@ -1,8 +1,8 @@
 
 import numpy as np
-import time
 import sys
 sys.path.append("../resources")
+sys.path.append("./resources")
 from qCircuit import LazyCircuit
 from scipy.sparse import diags
 

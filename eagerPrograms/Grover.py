@@ -1,12 +1,15 @@
 import numpy as np
 
 import sys
+
 sys.path.append("../resources")
-from qCircuit import BasicCircuit
+sys.path.append("./resources")
+from qCircuit import EagerCircuit
 from scipy.sparse import diags
 from tqdm import tqdm
 
 nqubits = int(sys.argv[1])
+
 
 max_dataset_size = 2**nqubits
 # only allow dataset size to be less than or equal to 2**nqbits. 
@@ -23,7 +26,7 @@ def main():
 
        
     #%%
-    circuit = BasicCircuit(nqubits,name = "GROVER")
+    circuit = EagerCircuit(nqubits,name = "GROVER")
     circuit.h()
     circuit.set_oracle(oracle,recorder=False)
     

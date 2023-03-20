@@ -9,9 +9,10 @@ It contains method for qbits in the register.
 
 import numpy as np
 from qGates import QbitGate
+from qVisualiser import qVisualiser
+from qPreloader import gateMatrices
 
-
-class QbitRegister(QbitGate):
+class QbitRegister(QbitGate,qVisualiser):
   
     """
     Qbit Register Class initialises a quantum register with nqbits qbits and initialises all qbits to |0>l,
@@ -26,7 +27,8 @@ class QbitRegister(QbitGate):
             nqbits (int, optional): Number of Qbits in the Quantum Register. Defaults to 2.
             name (str, optional): Label of the register. Defaults to "qregister".
         """
-        QbitGate.__init__(self)
+       
+      
         self.name = name
         self.nqbits = nqbits
         self.N = 2**self.nqbits
@@ -34,6 +36,7 @@ class QbitRegister(QbitGate):
         self.basisSpace = np.zeros(self.N, dtype=int) #  basis state formed by tensor product of all qbits
         self.basisSpace[0] = 1 #all qbits are by default initialised to |0>
         self.circuitSeq = []
+        QbitGate.__init__(self)
        
        
        

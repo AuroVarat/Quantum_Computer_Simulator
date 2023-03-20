@@ -59,8 +59,9 @@ class InputErrorCheck():
 
 class QbitGate(gateMatrices,InputErrorCheck):
     def __init__(self):
-       gateMatrices.__init__(self)
-       self.swap_status = []
+    
+        self.swap_status = []
+        gateMatrices.__init__(self)
        
     
 

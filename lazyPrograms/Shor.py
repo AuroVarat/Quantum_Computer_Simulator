@@ -1,12 +1,12 @@
 from lazyCircuit.lazyCircuit import QbitRegister
 
 import numpy as np
-import inspect
-import cProfile
-import time
-from scipy.sparse import diags,identity,eye,csr_matrix,kron
 
+from scipy.sparse import eye,kron
 
+sys.path.append("../resources")
+sys.path.append("./resources")
+from qCircuit import LazyCircuit
 
 
 

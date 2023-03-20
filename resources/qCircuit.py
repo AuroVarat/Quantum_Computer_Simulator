@@ -11,13 +11,10 @@ import numpy as np
 from scipy.sparse import identity
 import sys
 sys.path.append("../resources")
-from qGates import QbitGate
-from qVisualiser import qVisualiser
 from qRegister import QbitRegister
-from qGates import QbitGate
 
 
-class LazyCircuit(QbitRegister,QbitGate,qVisualiser):
+class LazyCircuit(QbitRegister):
   
     """
     Qbit Register Class initialises a quantum register with nqbits qbits and initialises all qbits to |0>l,
@@ -32,10 +29,10 @@ class LazyCircuit(QbitRegister,QbitGate,qVisualiser):
             nqbits (int, optional): Number of Qbits in the Quantum Register. Defaults to 2.
             name (str, optional): Label of the register. Defaults to "qregister".
         """
-        QbitRegister.__init__(self,nqbits,name)
-    
 
+        
         self.circuit = self.create_circuit()
+        QbitRegister.__init__(self,nqbits,name)
 
         
     def create_circuit(self):   
@@ -72,7 +69,7 @@ class LazyCircuit(QbitRegister,QbitGate,qVisualiser):
         """
         return self.circuit(identity(self.N),measure=True)
     
-class EagerCircuit(QbitRegister,QbitGate,qVisualiser):
+class EagerCircuit(QbitRegister):
   
     """
     Qbit Register Class initialises a quantum register with nqbits qbits and initialises all qbits to |0>l,
@@ -88,9 +85,10 @@ class EagerCircuit(QbitRegister,QbitGate,qVisualiser):
             name (str, optional): Label of the register. Defaults to "qregister".
         """
         
-        QbitRegister.__init__(self,nqbits,name)
+        
         self.state_history = []
         self.marked_state_history = []
+        QbitRegister.__init__(self,nqbits,name)
    
        
  
