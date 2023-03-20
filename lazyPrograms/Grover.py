@@ -29,7 +29,7 @@ def main():
     target = np.random.randint(0,dataset_size)
     oracle = diags(np.where(dataset == target, -1, 1))
  
- 
+    
  
     def grover_iterate(nqubits):
         qc = LazyCircuit(nqubits)
@@ -54,7 +54,7 @@ def main():
 
     Q.addToCircuit(grover_iterate(nqubits),name="Grover Diffuser")
    
-    np.amax(Q.measure().real)
+    print(np.amax(Q.measure().real))
     Q.sequence()
     # t2 = time.time()
 

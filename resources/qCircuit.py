@@ -37,7 +37,7 @@ class LazyCircuit(QbitRegister):
         
         self.circuit = self.create_circuit()(identity(2**nqbits,dtype=int))
         QbitRegister.__init__(self,nqbits,name)
-
+        print("{} initialised with {} qbits.".format(self.name,self.nqbits))
 
         
     def create_circuit(self): 
@@ -66,7 +66,7 @@ class LazyCircuit(QbitRegister):
         """
         if ith_qbit != None:
             self.circuit = self.circuit(self.operation(gate,ith_qbit))
-            self.circuitSeq.append((name,ith_qbit+1))
+            self.circuitSeq.append((name,ith_qbit))
         else:
             self.circuit = self.circuit(gate)
             self.circuitSeq.append((name))
@@ -78,7 +78,7 @@ class LazyCircuit(QbitRegister):
         :returns: Measurement result (1D Numpy Array) 
         """
         self.basisSpace = self.circuit(self.basisSpace,measure=True)
-        print(str(np.around(self.basisSpace.real))+"\n")
+        print(str(self.basisSpace.real)+"\n")
         return self.basisSpace
         
     def to_gate(self):

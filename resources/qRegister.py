@@ -43,7 +43,7 @@ class QbitRegister(QbitGate,qVisualiser):
         self.basisSpace[0] = 1 #all qbits are by default initialised to |0>
         self.circuitSeq = []
         QbitGate.__init__(self)
-        print("Register {} initialised with {} qbits.".format(name,nqbits))
+        
        
        
 

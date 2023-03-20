@@ -138,13 +138,14 @@ class QbitGate(gateMatrices,InputErrorCheck):
 
         if ith_qbit == None:
             self.addToCircuit(self.H_all,name=name)
+       
         elif type(ith_qbit) == int:
-            self.addToCircuit(self.H_2x2,ith_qbit,name=(name+"_"+str(ith_qbit)))
+            self.addToCircuit(self.H_2x2,ith_qbit,name=(name))
         elif len(ith_qbit) > 1 & self.is_series(ith_qbit):
-            self.addToCircuit(self.H(len(ith_qbit)),ith_qbit[0],name=(name+"_"+str(ith_qbit)))
+            self.addToCircuit(self.H(len(ith_qbit)),ith_qbit[0],name=(name))
         elif len(ith_qbit) > 1 & ~self.is_series(ith_qbit):
             for i in ith_qbit:
-                self.addToCircuit(self.H_2x2,i,name=(name+"_"+str(i)))
+                self.addToCircuit(self.H_2x2,i,name=(name))
     
     def x(self,ith_qbit=None,name="X"):
         """Pauli-X Gate
