@@ -1,0 +1,6 @@
+Circuit
+*********
+.. automodule:: qCircuit
+   :members:
+   :undoc-members:
+   :show-inheritance:

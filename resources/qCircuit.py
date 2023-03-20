@@ -1,10 +1,13 @@
 """
-Title: Quantum Circuit Class
-Author: Auro Varat Patnaik
-Date: 2023-03-07
-Code version: 3.0
-Description: Quantum Circuit Class initialises a quantum circuit with nqbits qbits and initialises all qbits to |0>.
+Quantum Circuit Class initialises a quantum circuit with nqbits qbits and initialises all qbits to |0>.
 It has two subclasses LazyCircuit and EagerCircuit.
+"""
+"""
+Title: Quantum Circuit Class \n
+Author: Auro Varat Patnaik \n
+Date: 2023-03-07 \n
+Code version: 3.0 \n
+  
 """
 
 import numpy as np
@@ -25,9 +28,9 @@ class LazyCircuit(QbitRegister):
         """Defines a Quantum Register with nqbits qbits and initialises all qbits to |0>.
         The Quantum Register is represented by a vector in the 2^nqbits dimensional basis space, i.e. the Hilbert Spac of the nqbits.
 
-        Args:
-            nqbits (int, optional): Number of Qbits in the Quantum Register. Defaults to 2.
-            name (str, optional): Label of the register. Defaults to "qregister".
+     
+        :param nqbits (int, optional): Number of Qbits in the Quantum Register. Defaults to 2.
+        :param name (str, optional): Label of the register. Defaults to "qregister".
         """
 
         
@@ -35,9 +38,18 @@ class LazyCircuit(QbitRegister):
         QbitRegister.__init__(self,nqbits,name)
 
         
-    def create_circuit(self):   
-        def circuitElement(register):
-            return lambda t_all,measure=False: circuitElement(register @ t_all) if measure != True else  t_all @ register
+    def create_circuit(self): 
+        """ Creates a circuit element that can be applied to the quantum register.
+        """ 
+        def circuitElement(next_gate):
+            """Generates a circuit element that can be applied to the quantum register using Lambda function
+        
+    
+            :param next_gate (2D Numpy Array): Quantum Gate to be applied to the quantum register
+
+            :returns: lambda function : Lambda funtion that applies the circuit element to the quantum register when measure = True and when measure = False it applies to the next gate in the circuit.
+            """
+            return lambda prev_gate,measure=False: circuitElement(next_gate @ prev_gate) if measure != True else  prev_gate @ next_gate
         return circuitElement
     
   
@@ -47,8 +59,8 @@ class LazyCircuit(QbitRegister):
     def addToCircuit(self,  gate, ith_qbit=None,name=None):
         """Applies a gate to the ith qbit in the quantum register. If the gate is a 2D gate then it is applied to the ith and (i+1)th qbit.
         Args:
-            gate (Numpy Array): Gate to be applied
-            ith_qbit (int): ith qbit to be operated on
+        :param    gate (Numpy Array): Gate to be applied
+        :param    ith_qbit (int): ith qbit to be operated on
         """
         if ith_qbit != None:
             self.circuit = self.circuit(self.operation(gate,ith_qbit))
@@ -59,13 +71,18 @@ class LazyCircuit(QbitRegister):
        
         
     def measure(self):
-        """Measures the quantum register in the computational basis and returns the result."""
+        """Measures the quantum register in the computational basis and returns the result.
+        
+        :returns: Measurement result (1D Numpy Array) 
+        """
         self.basisSpace = self.circuit(self.basisSpace,measure=True)
         print(str(np.around(self.basisSpace.real))+"\n")
         return self.basisSpace
         
     def to_gate(self):
         """Converts the quantum register to a gate
+        
+        :returns: (2D Sparse or Numpy Matrix)Circuit as a gate 
         """
         return self.circuit(identity(self.N),measure=True)
     
@@ -80,9 +97,9 @@ class EagerCircuit(QbitRegister):
         """Defines a Quantum Register with nqbits qbits and initialises all qbits to |0>.
         The Quantum Register is represented by a vector in the 2^nqbits dimensional basis space, i.e. the Hilbert Spac of the nqbits.
 
-        Args:
-            nqbits (int, optional): Number of Qbits in the Quantum Register. Defaults to 2.
-            name (str, optional): Label of the register. Defaults to "qregister".
+     
+        :param nqbits (int, optional): Number of Qbits in the Quantum Register. Defaults to 2.
+        :param name (str, optional): Label of the register. Defaults to "qregister".
         """
         
         
@@ -97,9 +114,9 @@ class EagerCircuit(QbitRegister):
     
     def addToCircuit(self,gate, ith_qbit=None,name=None):
         """Applies a gate to the ith qbit in the quantum register. If the gate is a 2D gate then it is applied to the ith and (i+1)th qbit.
-        Args:
-            gate (Numpy Array): Gate to be applied
-            ith_qbit (int): ith qbit to be operated on
+        
+        :param  gate (Numpy Array): Gate to be applied
+        :param  ith_qbit (int): ith qbit to be operated on
         """
         if ith_qbit != None:
          
@@ -114,6 +131,8 @@ class EagerCircuit(QbitRegister):
         
 
     def record_state_vector_projection(self):
+        """Records the projection of the state vector onto the computational basis.
+        """
         assert self.recording == True, "Oracle not set to record"
         w = self.winnerState
         s = self.basisSpace.real
@@ -124,6 +143,9 @@ class EagerCircuit(QbitRegister):
         self.state_history.append([x,y])
     
     def record_marked_state(self,marked_state_index):
+        """
+        Records the Amplitude of the marked state.
+        """
         assert self.recording == True, "Oracle not set to record"
         
         self.marked_state_history.append(self.basisSpace.real[marked_state_index])

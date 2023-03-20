@@ -5,6 +5,10 @@
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
+import os
+import sys
+sys.path.insert(0, os.path.abspath('..'))
+sys.path.insert(0, os.path.abspath('../resources'))
 
 project = 'Qbit'
 copyright = '2023, Auro Varat Patnaik'
@@ -16,9 +20,7 @@ release = '2.0'
 
 extensions = ['sphinx.ext.autodoc']
 
-import os
-import sys
-sys.path.insert(0, os.path.abspath('../..'))
+
 
 
 templates_path = ['_templates']

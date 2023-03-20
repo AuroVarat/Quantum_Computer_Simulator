@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2D2D2D" />
+  
+  <title>Qbit :: Gates</title>
+  
+
+  <link rel="icon" type="image/png" sizes="32x32" href="_static/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="_static/img/favicon-16x16.png">
+  <link rel="index" title="Index" href="genindex.html"/>
+
+  <link rel="stylesheet" href="_static/css/insegel.css"/>
+  <link rel="stylesheet" href="_static/css/custom.css"/>
+
+  <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+      <script type="text/javascript" src="_static/documentation_options.js"></script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+  
+
+  <script src="https://email.tl.fortawesome.com/c/eJxNjUEOgyAQAF8jR7Kw6wIHDh7sP1Cw2mgxgmn6-3JsMqc5zEQfE8dkxOY1KKMUOI3ACFKRJpSW2AAp7ontYIaxI6i7XPJVwyeVfCQ550Os3jLrGSNOLgbdAy6s0PBk2TFNjEbsfq31LB0OnX407pJa5v2faRadwSW63mn5KuLyR9j2tgx3zecanl-55R_-jjPs"></script> 
+</head>
+
+<body>
+  <div id="insegel-container">
+    <header>
+      <div id="logo-container">
+          
+          <h1>Qbit</h1>
+          
+      </div>
+      <div id="project-container">
+        
+        <h1>Documentation</h1>
+        
+      </div>
+    </header>
+
+    <div id="content-container">
+
+      <div id="main-content-container">
+        <div id="main-content" role="main">
+          
+  <section id="module-qGates">
+<span id="gates"></span><h1>Gates<a class="headerlink" href="#module-qGates" title="Permalink to this headline">¶</a></h1>
+<p>Quantum Gate Class contains two subclasses, QbitGate and InputErrorCheck.
+QbitGate Class is a child class of the gateMatrices and InputErrorCheck. It contains methods to apply gates to the qbits in the register.
+InputErrorCheck Class contains methods to check the input for the gates.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="qGates.InputErrorCheck">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qGates.</span></span><span class="sig-name descname"><span class="pre">InputErrorCheck</span></span><a class="headerlink" href="#qGates.InputErrorCheck" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qGates.InputErrorCheck.check_qubit_input_for_cgate">
+<span class="sig-name descname"><span class="pre">check_qubit_input_for_cgate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ith_qbit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jth_qbit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qGates.InputErrorCheck.check_qubit_input_for_cgate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qGates.InputErrorCheck.check_qubit_input_for_gate">
+<span class="sig-name descname"><span class="pre">check_qubit_input_for_gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ith_qbit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qGates.InputErrorCheck.check_qubit_input_for_gate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qGates.InputErrorCheck.check_qubit_input_for_mcgate">
+<span class="sig-name descname"><span class="pre">check_qubit_input_for_mcgate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_qbit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qGates.InputErrorCheck.check_qubit_input_for_mcgate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qGates.InputErrorCheck.is_series">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_series</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lst</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qGates.InputErrorCheck.is_series" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qGates.QbitGate">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qGates.</span></span><span class="sig-name descname"><span class="pre">QbitGate</span></span><a class="headerlink" href="#qGates.QbitGate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="Preloaders.html#qPreloader.gateMatrices" title="qPreloader.gateMatrices"><code class="xref py py-class docutils literal notranslate"><span class="pre">qPreloader.gateMatrices</span></code></a>, <a class="reference internal" href="#qGates.InputErrorCheck" title="qGates.InputErrorCheck"><code class="xref py py-class docutils literal notranslate"><span class="pre">qGates.InputErrorCheck</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qGates.QbitGate.cp">
+<span class="sig-name descname"><span class="pre">cp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control_qbit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_qbit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.141592653589793</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cPhase</span> <span class="pre">Shift'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qGates.QbitGate.cp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Controlled Phase Gate
+Args:</p>
+<blockquote>
+<div><p>ith_qbit (nth qubit): ith_qbit (nth qubit): Selects the qubit(s) to be operated on. Required.
+jth_qbit (nth qubit): Selects the qubit(s) to be operated on. If None, applies to all qubits. Required.
+Phi (float): Phase angle. Default is pi.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qGates.QbitGate.cx">
+<span class="sig-name descname"><span class="pre">cx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control_qbit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_qbit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'CX'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qGates.QbitGate.cx" title="Permalink to this definition">¶</a></dt>
+<dd><p>Controlled Pauli-X Gate
+Args:</p>
+<blockquote>
+<div><p>ith_qbit (nth qubit): ith_qbit (nth qubit): Selects the qubit(s) to be operated on. Required.
+jth_qbit (nth qubit): Selects the qubit(s) to be operated on. If None, applies to all qubits. Required.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qGates.QbitGate.cz">
+<span class="sig-name descname"><span class="pre">cz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control_qbit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_qbit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qGates.QbitGate.cz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Controlled Pauli-Z Gate
+Args:</p>
+<blockquote>
+<div><p>ith_qbit (nth qubit): ith_qbit (nth qubit): Selects the qubit(s) to be operated on. Required.
+jth_qbit (nth qubit): Selects the qubit(s) to be operated on. If None, applies to all qubits. Required.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qGates.QbitGate.h">
+<span class="sig-name descname"><span class="pre">h</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ith_qbit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Hadamard'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qGates.QbitGate.h" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hadamard Gate</p>
+<dl>
+<dt>Args:</dt><dd><p>ith_qbit (nth qubit): Selects the qubit(s) to be operated on. If None, applies to all qubits. 
+Multiple Qubits can be selected by passing a list of qubits, but the qubits must be adjacent.</p>
+<p>name (str): Name of the gate. Default is “Hadamard”</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qGates.QbitGate.mcz">
+<span class="sig-name descname"><span class="pre">mcz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_qubit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'MCZ'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qGates.QbitGate.mcz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies a multi-controlled Toffoli gate.
+Args:</p>
+<blockquote>
+<div><p>control_qubits (list(int)): List of control qubits
+target_qubit (int): Target qubit</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qGates.QbitGate.nonadjacent_swap">
+<span class="sig-name descname"><span class="pre">nonadjacent_swap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ith_qbit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jth_qbit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qGates.QbitGate.nonadjacent_swap" title="Permalink to this definition">¶</a></dt>
+<dd><p>{Internal Method} Creates a swap gate for non-adjacent qubits.
+Args:</p>
+<blockquote>
+<div><p>ith_qbit (nth qubit): ith_qbit (nth qubit): Selects the qubit(s) to be operated on. Required.
+jth_qbit (nth qubit): Selects the qubit(s) to be operated on. If None, applies to all qubits. Required.
+unswap (bool): If true, creates an unswap gate.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qGates.QbitGate.operation">
+<span class="sig-name descname"><span class="pre">operation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ith_qbit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qGates.QbitGate.operation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies a gate to the ith qbit in the quantum register. If the gate is a 2D gate then it is applied to the ith and (i+1)th qbit.
+Args:</p>
+<blockquote>
+<div><p>gate (Numpy Array): Gate to be applied
+ith_qbit (int): ith qbit to be operated on</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qGates.QbitGate.oracle">
+<span class="sig-name descname"><span class="pre">oracle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qGates.QbitGate.oracle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qGates.QbitGate.p">
+<span class="sig-name descname"><span class="pre">p</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ith_qbit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.141592653589793</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Phase</span> <span class="pre">Shift'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qGates.QbitGate.p" title="Permalink to this definition">¶</a></dt>
+<dd><p>Phase Gate
+Args:</p>
+<blockquote>
+<div><p>ith_qbit (nth qubit): ith_qbit (nth qubit): Selects the qubit(s) to be operated on. If None, applies to all qubits. 
+Multiple Qubits can be selected by passing a list of qubits, but the qubits must be adjacent.</p>
+<p>name (str): Name of the gate. Default is “Phase”</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qGates.QbitGate.power">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">power</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qGates.QbitGate.power" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the quantum register to itself n times</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qGates.QbitGate.reflect">
+<span class="sig-name descname"><span class="pre">reflect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Reflection'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qGates.QbitGate.reflect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reflection Gate to reflect the state vector about the origin (first qubit).
+Args:</p>
+<blockquote>
+<div><p>name (str): Name of the gate. Default is “Reflection”</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qGates.QbitGate.set_oracle">
+<span class="sig-name descname"><span class="pre">set_oracle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">oracle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recorder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qGates.QbitGate.set_oracle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qGates.QbitGate.swap">
+<span class="sig-name descname"><span class="pre">swap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ith_qbit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jth_qbit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Swap'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qGates.QbitGate.swap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Swap Gate
+Args:</p>
+<blockquote>
+<div><p>ith_qbit (nth qubit): ith_qbit (nth qubit): Selects the qubit(s) to be operated on. Required.
+jth_qbit (nth qubit): Selects the qubit(s) to be operated on. If None, applies to all qubits. Required.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qGates.QbitGate.unswap">
+<span class="sig-name descname"><span class="pre">unswap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ith_qbit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jth_qbit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Unswap'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qGates.QbitGate.unswap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unswap Gate
+Args:
+ith_qbit (nth qubit): ith_qbit (nth qubit): Selects the qubit(s) to be operated on. Required.
+jth_qbit (nth qubit): Selects the qubit(s) to be operated on. If None, applies to all qubits. Required.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qGates.QbitGate.x">
+<span class="sig-name descname"><span class="pre">x</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ith_qbit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'X'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qGates.QbitGate.x" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pauli-X Gate
+Args:</p>
+<blockquote>
+<div><p>ith_qbit (nth qubit): ith_qbit (nth qubit): Selects the qubit(s) to be operated on. If None, applies to all qubits. 
+Multiple Qubits can be selected by passing a list of qubits, but the qubits must be adjacent.</p>
+<p>name (str): Name of the gate. Default is “X”</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qGates.QbitGate.z">
+<span class="sig-name descname"><span class="pre">z</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ith_qbit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Z'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qGates.QbitGate.z" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pauli-X Gate
+Args:</p>
+<blockquote>
+<div><p>ith_qbit (nth qubit): ith_qbit (nth qubit): Selects the qubit(s) to be operated on. If None, applies to all qubits. 
+Multiple Qubits can be selected by passing a list of qubits, but the qubits must be adjacent.</p>
+<p>name (str): Name of the gate. Default is “Z”</p>
+</div></blockquote>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+        </div>
+      </div>
+
+      <div id="side-menu-container">
+
+        <div id="search" role="search">
+        <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+            <input type="text" name="q" placeholder="Search..." />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+        </form>
+</div>
+
+        <div id="side-menu" role="navigation">
+
+          
+  
+    
+  
+  
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Circuit.html">Circuit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Register.html">Register</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Gates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Preloaders.html">Preloader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Visualisation.html">Register</a></li>
+</ul>
+
+  
+
+
+        </div>
+
+        
+
+      </div>
+
+    </div>
+
+<footer>
+    <div id="footer-info">
+        <ul id="build-details">
+            
+                <li class="footer-element">
+                    
+                        <a href="_sources/Gate.rst.txt" rel="nofollow"> source</a>
+                    
+                </li>
+            
+
+            
+
+            
+        </ul>
+
+        
+            <div id="copyright">
+                &copy; 2023, Auro Varat Patnaik
+            </div>
+        
+
+        <div id="credit">
+            created with <a href="http://sphinx-doc.org/">Sphinx</a> and <a href="https://github.com/Autophagy/insegel">Insegel</a>
+
+        </div>
+    </div>
+
+    <a id="menu-toggle" class="fa fa-bars" aria-hidden="true"></a>
+
+    <script type="text/javascript">
+      $("#menu-toggle").click(function() {
+        $("#menu-toggle").toggleClass("toggled");
+        $("#side-menu-container").slideToggle(300);
+      });
+    </script>
+
+</footer> 
+
+</div>
+
+</body>
+</html>

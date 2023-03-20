@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2D2D2D" />
+  
+  <title>Qbit :: &lt;no title&gt;</title>
+  
+
+  <link rel="icon" type="image/png" sizes="32x32" href="_static/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="_static/img/favicon-16x16.png">
+  <link rel="index" title="Index" href="genindex.html"/>
+
+  <link rel="stylesheet" href="_static/css/insegel.css"/>
+  <link rel="stylesheet" href="_static/css/custom.css"/>
+
+  <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+      <script type="text/javascript" src="_static/documentation_options.js"></script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+  
+
+  <script src="https://email.tl.fortawesome.com/c/eJxNjUEOgyAQAF8jR7Kw6wIHDh7sP1Cw2mgxgmn6-3JsMqc5zEQfE8dkxOY1KKMUOI3ACFKRJpSW2AAp7ontYIaxI6i7XPJVwyeVfCQ550Os3jLrGSNOLgbdAy6s0PBk2TFNjEbsfq31LB0OnX407pJa5v2faRadwSW63mn5KuLyR9j2tgx3zecanl-55R_-jjPs"></script> 
+</head>
+
+<body>
+  <div id="insegel-container">
+    <header>
+      <div id="logo-container">
+          
+          <h1>Qbit</h1>
+          
+      </div>
+      <div id="project-container">
+        
+        <h1>Documentation</h1>
+        
+      </div>
+    </header>
+
+    <div id="content-container">
+
+      <div id="main-content-container">
+        <div id="main-content" role="main">
+          
+  <span class="target" id="module-qCircuit"></span><p>Title: Quantum Circuit Class
+Author: Auro Varat Patnaik
+Date: 2023-03-07
+Code version: 3.0
+Description: Quantum Circuit Class initialises a quantum circuit with nqbits qbits and initialises all qbits to <a href="#id1"><span class="problematic" id="id2">|</span></a>0&gt;.
+It has two subclasses LazyCircuit and EagerCircuit.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="qCircuit.EagerCircuit">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qCircuit.</span></span><span class="sig-name descname"><span class="pre">EagerCircuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nqbits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'BasicQregister'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qCircuit.EagerCircuit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">qRegister.QbitRegister</span></code></p>
+<p>Qbit Register Class initialises a quantum register with nqbits qbits and initialises all qbits to <a href="#id3"><span class="problematic" id="id4">|</span></a>0&gt;l,
+and contains methods to apply gates to the qbits in the register.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qCircuit.EagerCircuit.addToCircuit">
+<span class="sig-name descname"><span class="pre">addToCircuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ith_qbit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qCircuit.EagerCircuit.addToCircuit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies a gate to the ith qbit in the quantum register. If the gate is a 2D gate then it is applied to the ith and (i+1)th qbit.
+Args:</p>
+<blockquote>
+<div><p>gate (Numpy Array): Gate to be applied
+ith_qbit (int): ith qbit to be operated on</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qCircuit.EagerCircuit.record_marked_state">
+<span class="sig-name descname"><span class="pre">record_marked_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">marked_state_index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qCircuit.EagerCircuit.record_marked_state" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qCircuit.EagerCircuit.record_state_vector_projection">
+<span class="sig-name descname"><span class="pre">record_state_vector_projection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qCircuit.EagerCircuit.record_state_vector_projection" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qCircuit.LazyCircuit">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qCircuit.</span></span><span class="sig-name descname"><span class="pre">LazyCircuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nqbits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'qregister'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qCircuit.LazyCircuit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">qRegister.QbitRegister</span></code></p>
+<p>Qbit Register Class initialises a quantum register with nqbits qbits and initialises all qbits to <a href="#id5"><span class="problematic" id="id6">|</span></a>0&gt;l,
+and contains methods to apply gates to the qbits in the register.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qCircuit.LazyCircuit.addToCircuit">
+<span class="sig-name descname"><span class="pre">addToCircuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ith_qbit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qCircuit.LazyCircuit.addToCircuit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies a gate to the ith qbit in the quantum register. If the gate is a 2D gate then it is applied to the ith and (i+1)th qbit.
+Args:</p>
+<blockquote>
+<div><p>gate (Numpy Array): Gate to be applied
+ith_qbit (int): ith qbit to be operated on</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qCircuit.LazyCircuit.create_circuit">
+<span class="sig-name descname"><span class="pre">create_circuit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qCircuit.LazyCircuit.create_circuit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qCircuit.LazyCircuit.measure">
+<span class="sig-name descname"><span class="pre">measure</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qCircuit.LazyCircuit.measure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Measures the quantum register in the computational basis and returns the result.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qCircuit.LazyCircuit.to_gate">
+<span class="sig-name descname"><span class="pre">to_gate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qCircuit.LazyCircuit.to_gate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts the quantum register to a gate</p>
+</dd></dl>
+
+</dd></dl>
+
+
+
+        </div>
+      </div>
+
+      <div id="side-menu-container">
+
+        <div id="search" role="search">
+        <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+            <input type="text" name="q" placeholder="Search..." />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+        </form>
+</div>
+
+        <div id="side-menu" role="navigation">
+
+          
+  
+    
+  
+  
+    <div class="local-toc"><ul class="simple">
+</ul>
+</div>
+  
+
+
+        </div>
+
+        
+
+      </div>
+
+    </div>
+
+<footer>
+    <div id="footer-info">
+        <ul id="build-details">
+            
+                <li class="footer-element">
+                    
+                        <a href="_sources/qCircuit.rst.txt" rel="nofollow"> source</a>
+                    
+                </li>
+            
+
+            
+
+            
+        </ul>
+
+        
+            <div id="copyright">
+                &copy; 2023, Auro Varat Patnaik
+            </div>
+        
+
+        <div id="credit">
+            created with <a href="http://sphinx-doc.org/">Sphinx</a> and <a href="https://github.com/Autophagy/insegel">Insegel</a>
+
+        </div>
+    </div>
+
+    <a id="menu-toggle" class="fa fa-bars" aria-hidden="true"></a>
+
+    <script type="text/javascript">
+      $("#menu-toggle").click(function() {
+        $("#menu-toggle").toggleClass("toggled");
+        $("#side-menu-container").slideToggle(300);
+      });
+    </script>
+
+</footer> 
+
+</div>
+
+</body>
+</html>

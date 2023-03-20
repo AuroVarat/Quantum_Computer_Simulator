@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#2D2D2D" />
   
-  <title>Qbit :: Documentation for Qbit Quantum Simulator</title>
+  <title>Qbit :: Register</title>
   
 
   <link rel="icon" type="image/png" sizes="32x32" href="_static/img/favicon-32x32.png">
@@ -46,26 +46,28 @@
       <div id="main-content-container">
         <div id="main-content" role="main">
           
-  <section id="documentation-for-qbit-quantum-simulator">
-<h1>Documentation for Qbit Quantum Simulator<a class="headerlink" href="#documentation-for-qbit-quantum-simulator" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="Circuit.html">Circuit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Register.html">Register</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Gate.html">Gates</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Preloaders.html">Preloader</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Visualisation.html">Register</a></li>
-</ul>
-</div>
-</section>
-<section id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
-<ul class="simple">
-<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
-<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
-<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
-</ul>
+  <section id="module-qRegister">
+<span id="register"></span><h1>Register<a class="headerlink" href="#module-qRegister" title="Permalink to this headline">¶</a></h1>
+<p>Qbit Register Class initialises a quantum register with nqbits qbits and initialises all qbits to <a href="#id1"><span class="problematic" id="id2">|</span></a>0&gt;. 
+It contains method for qbits in the register.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="qRegister.QbitRegister">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qRegister.</span></span><span class="sig-name descname"><span class="pre">QbitRegister</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nqbits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'register'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qRegister.QbitRegister" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="Gate.html#qGates.QbitGate" title="qGates.QbitGate"><code class="xref py py-class docutils literal notranslate"><span class="pre">qGates.QbitGate</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">qVisualiser.qVisualiser</span></code></p>
+<p>Qbit Register Class initialises a quantum register with nqbits qbits and initialises all qbits to <a href="#id3"><span class="problematic" id="id4">|</span></a>0&gt;l,
+and contains methods to apply gates to the qbits in the register.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qRegister.QbitRegister.output">
+<span class="sig-name descname"><span class="pre">output</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qRegister.QbitRegister.output" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qRegister.QbitRegister.set_state">
+<span class="sig-name descname"><span class="pre">set_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qRegister.QbitRegister.set_state" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 
 
@@ -90,12 +92,12 @@
   
   
     <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Circuit.html">Circuit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Register.html">Register</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Gate.html">Gates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Preloaders.html">Preloader</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Visualisation.html">Register</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Register</a></li>
 </ul>
 
   
@@ -115,7 +117,7 @@
             
                 <li class="footer-element">
                     
-                        <a href="_sources/index.rst.txt" rel="nofollow"> source</a>
+                        <a href="_sources/Visualisation.rst.txt" rel="nofollow"> source</a>
                     
                 </li>
             

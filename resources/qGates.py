@@ -1,12 +1,14 @@
 
 """
+Quantum Gate Class contains two subclasses, QbitGate and InputErrorCheck.
+QbitGate Class is a child class of the gateMatrices and InputErrorCheck. It contains methods to apply gates to the qbits in the register.
+InputErrorCheck Class contains methods to check the input for the gates.
+"""
+"""
 Title: Quantum Gate Class
 Author: Auro Varat Patnaik
 Date: 2023-03-07
 Code version: 3.0
-Description: Quantum Gate Class contains two subclasses, QbitGate and InputErrorCheck.
-QbitGate Class is a child class of the gateMatrices and InputErrorCheck. It contains methods to apply gates to the qbits in the register.
-InputErrorCheck Class contains methods to check the input for the gates.
 """
 import numpy as np
 from scipy.sparse import eye,kron

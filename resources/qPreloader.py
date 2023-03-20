@@ -1,9 +1,12 @@
 """
+Preloader Class preloads all the commonly used gate matrices and other constants required for the simulation.
+"""
+"""
 Title: Preloader Class
 Author: Auro Varat Patnaik
 Date: 2023-03-07    
 Code version: 3.0
-Description: Preloader Class preloads all the commonly used gate matrices and other constants required for the simulation.
+
 """
 
 import numpy as np
@@ -13,6 +16,21 @@ from scipy.sparse import diags,csr_matrix,eye
 isq2 = 1/np.sqrt(2) # 1/sqrt(2)
 
 class gateMatrices():
+    """
+
+    :ivar I: Identity Matrix: :math:`I = \\begin{bmatrix} 1 & 0 \\\\ 0 & 1 \\end{bmatrix}`
+    :ivar H_2x2, H_all, H: Hadamard Matrix(N), (Hadamard Matrix for all Qubits, Hadamard Matrix for Single Qubit): :math:`H = \\frac{1}{\\sqrt{2}} \\begin{bmatrix} 1 & 1 \\\\ 1 & -1 \\end{bmatrix}`
+    :ivar V: Square Root of NOT matrix: :math:`V = \\begin{bmatrix} 1 & 0 \\\\ 0 & i \\end{bmatrix}`
+    :ivar X_2x2, X_all, X: Pauli X Matrix(N), (Pauli X Matrix for all Qubits, Pauli X Matrix for Single Qubit): :math:`X = \\begin{bmatrix} 0 & 1 \\\\ 1 & 0 \\end{bmatrix}`
+    :ivar Z_2x2, Z_all, Z: Pauli Z Matrix(N), (Pauli Z Matrix for all Qubits, Pauli Z Matrix for Single Qubit): :math:`Z = \\begin{bmatrix} 1 & 0 \\\\ 0 & -1 \\end{bmatrix}`
+    :ivar swap_4x4: Swap Matrix: :math:`swap = \\begin{bmatrix} 1 & 0 & 0 & 0 \\\\ 0 & 0 & 1 & 0 \\\\ 0 & 1 & 0 & 0 \\\\ 0 & 0 & 0 & 1 \\end{bmatrix}`
+    :ivar cX_4x4: Controlled Pauli X Matrix: :math:`CX = \\begin{bmatrix} 1 & 0 & 0 & 0 \\\\ 0 & 1 & 0 & 0 \\\\ 0 & 0 & 0 & 1 \\\\ 0 & 0 & 1 & 0 \\end{bmatrix}`
+    :ivar cZ_4x4: Controlled Pauli Z Matrix: :math:`CZ = \\begin{bmatrix} 1 & 0 & 0 & 0 \\\\ 0 & 1 & 0 & 0 \\\\ 0 & 0 & 1 & 0 \\\\ 0 & 0 & 0 & -1 \\end{bmatrix}`
+    :ivar t: Toffoli Matrix :math:`t = \\begin{bmatrix} 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\\\ 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\\\ 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\\\ 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\\\ 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\\\ 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\\\ 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 \\\\ 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 \\end{bmatrix}`
+    :ivar mct: Multi-Controlled Toffoli Gate: :math:`mct = \\begin{bmatrix} 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\\\ 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\\\ 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\\\ 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\\\ 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\\\ 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\\\ 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 \\\\ 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 \\end{bmatrix}`
+    :ivar mcZ: Multi-Controlled Pauli Z Gate: :math:`mcZ = \\begin{bmatrix} 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\\\ 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\\\ 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\\\ 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\\\ 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\\\ 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\\\ 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 \\\\ 0 & 0 & 0 & 0 & 0 & 0 & 0 & -1 \\end{bmatrix}`
+    :ivar reflection: Reflection Matrix: :math:`reflection = \\begin{bmatrix} 1 & 0 \\\\ 0 & -1 \\end{bmatrix}`
+    """
     def __init__(self):
        
         self.root_factor = lambda n : isq2**n
@@ -49,6 +67,16 @@ class gateMatrices():
      
     @staticmethod
     def addControl(gate,control_qubits=1):
+        """
+        Add control qubits to a gate
+        
+
+     
+        :param gate (2D Numpy/Sparse): Gate to be controlled
+        :param control_qubits (int, optional): Number of Control Qubits. Defaults to 1.
+
+        :returns: (2D Numpy/Sparse) : Gate with control qubits added
+        """
         number_of_qubits = int(np.log2(gate.shape[0]))
         total_qubits = number_of_qubits + control_qubits
         control_add = eye(2**total_qubits,format='lil')

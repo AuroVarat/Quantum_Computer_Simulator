@@ -1,9 +1,12 @@
 """
+Qbit Visualiser Class has methods to visualise the state of a quantum register.
+"""
+"""
 Title: Qbit Visualiser Class
 Author: Auro Varat Patnaik
 Date: 2023-03-07
 Code version: 3.0
-Description: Qbit Visualiser Class has methods to visualise the state of a quantum register.
+
 """
 from matplotlib import pyplot as plt
 import numpy as np

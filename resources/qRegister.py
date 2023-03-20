@@ -1,10 +1,13 @@
 """
+Qbit Register Class initialises a quantum register with nqbits qbits and initialises all qbits to |0>. 
+It contains method for qbits in the register.
+"""
+"""
 Title: Qbit Register Class
 Author: Auro Varat Patnaik
 Date: 2023-03-07
 Code version: 3.0
-Description: Qbit Register Class initialises a quantum register with nqbits qbits and initialises all qbits to |0>. 
-It contains method for qbits in the register.
+
 """
 
 import numpy as np
