@@ -1,0 +1,44 @@
+<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>320</x><y>10</y><w>180</w><h>60</h></coordinates><panel_attributes>qPreloader Class
+
+Gate Matrices and Constants
+fg=#000
+bg=blue
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>310</x><y>260</y><w>220</w><h>70</h></coordinates><panel_attributes>qRegister Class
+
+Initialises a Quantum Register
+fg=#000
+bg=red
+
+
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>260</x><y>100</y><w>310</w><h>120</h></coordinates><panel_attributes>qGates Class
+fg=#000
+bg=green
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>270</x><y>130</y><w>130</w><h>80</h></coordinates><panel_attributes>Input Error Check
+
+Validates Qubit
+Input for Gates
+
+fg=#000
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>390</x><y>140</y><w>60</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>40;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>380</x><y>60</y><w>40</w><h>60</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>19;38;20;10</additional_attributes></element><element><id>Relation</id><coordinates><x>390</x><y>210</y><w>40</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>19;58;20;10</additional_attributes></element><element><id>UMLNote</id><coordinates><x>210</x><y>360</y><w>390</w><h>120</h></coordinates><panel_attributes>qCircuit Class
+
+Child Classes Initialise Corresponding Circuit
+bg=black
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>400</x><y>310</y><w>30</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;58;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>420</x><y>430</y><w>130</w><h>30</h></coordinates><panel_attributes>Lazy Circuit
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>270</x><y>430</y><w>130</w><h>30</h></coordinates><panel_attributes>Eager Circuit
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>430</x><y>130</y><w>130</w><h>80</h></coordinates><panel_attributes>Qbit Gates
+
+Methods for Gates 
+and their operation
+
+fg=#000</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLPackage</id><coordinates><x>460</x><y>530</y><w>140</w><h>70</h></coordinates><panel_attributes>Lazy Programs
+--
+1. Grover
+2. Shor
+bg=yellow
+fg=#000</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLPackage</id><coordinates><x>230</x><y>530</y><w>140</w><h>70</h></coordinates><panel_attributes>Eager Programs
+--
+1. Grover
+bg=cyan
+fg=#000</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>310</x><y>450</y><w>30</w><h>100</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;78;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>490</x><y>450</y><w>30</w><h>100</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;78;10;10</additional_attributes></element></diagram>
