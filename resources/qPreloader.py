@@ -12,6 +12,9 @@ Code version: 3.0
 import numpy as np
 from scipy.linalg import hadamard
 from scipy.sparse import diags,csr_matrix,eye
+import sys
+sys.path.append("../resources")
+sys.path.append("./resources")
 
 isq2 = 1/np.sqrt(2) # 1/sqrt(2)
 

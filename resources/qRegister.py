@@ -12,6 +12,9 @@ Code version: 3.0
 
 import numpy as np
 from qGates import QbitGate
+import sys
+sys.path.append("../resources")
+sys.path.append("./resources")
 from qVisualiser import qVisualiser
 from qPreloader import gateMatrices
 
@@ -31,7 +34,7 @@ class QbitRegister(QbitGate,qVisualiser):
             name (str, optional): Label of the register. Defaults to "qregister".
         """
        
-      
+        
         self.name = name
         self.nqbits = nqbits
         self.N = 2**self.nqbits
@@ -40,7 +43,7 @@ class QbitRegister(QbitGate,qVisualiser):
         self.basisSpace[0] = 1 #all qbits are by default initialised to |0>
         self.circuitSeq = []
         QbitGate.__init__(self)
-       
+        print("Register {} initialised with {} qbits.".format(name,nqbits))
        
        
 
@@ -56,4 +59,10 @@ class QbitRegister(QbitGate,qVisualiser):
 
     def set_state(self,state):
         self.basisSpace = state
-          
+    
+    def sequence(self):
+        """Prints the circuit sequence of the quantum register
+        """
+        print("Circuit Sequence: {}".format(self.circuitSeq))
+      
+   

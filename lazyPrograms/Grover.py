@@ -52,10 +52,10 @@ def main():
 
     Q.h()
 
-    Q.addToCircuit(grover_iterate(nqubits))
+    Q.addToCircuit(grover_iterate(nqubits),name="Grover Diffuser")
    
     np.amax(Q.measure().real)
-    
+    Q.sequence()
     # t2 = time.time()
 
     # tt = t2-t1

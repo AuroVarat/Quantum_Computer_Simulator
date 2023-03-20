@@ -13,7 +13,11 @@ Code version: 3.0
 import numpy as np
 from scipy.sparse import eye,kron
 from scipy.sparse.linalg import inv
+import sys
+sys.path.append("../resources")
+sys.path.append("./resources")
 from qPreloader import gateMatrices
+
 
 class InputErrorCheck():
     @staticmethod
@@ -129,12 +133,12 @@ class QbitGate(gateMatrices,InputErrorCheck):
         """
         
         self.check_qubit_input_for_gate(ith_qbit)
-
-
+   
+    
 
         if ith_qbit == None:
             self.addToCircuit(self.H_all,name=name)
-        elif len(ith_qbit) == 1:
+        elif type(ith_qbit) == int:
             self.addToCircuit(self.H_2x2,ith_qbit,name=(name+"_"+str(ith_qbit)))
         elif len(ith_qbit) > 1 & self.is_series(ith_qbit):
             self.addToCircuit(self.H(len(ith_qbit)),ith_qbit[0],name=(name+"_"+str(ith_qbit)))
@@ -154,7 +158,7 @@ class QbitGate(gateMatrices,InputErrorCheck):
        
         if ith_qbit == None:
             self.addToCircuit(self.X_all,name=name)
-        elif len(ith_qbit) == 1:
+        elif type(ith_qbit) == int:
             self.addToCircuit(self.X_2x2,ith_qbit,name=(name+"_"+str(ith_qbit)))
         elif len(ith_qbit) > 1:
             self.addToCircuit(self.X(len(ith_qbit)),ith_qbit[0],name=(name+"_"+str(ith_qbit)))

@@ -14,6 +14,7 @@ import numpy as np
 from scipy.sparse import identity
 import sys
 sys.path.append("../resources")
+sys.path.append("./resources")
 from qRegister import QbitRegister
 
 
@@ -32,10 +33,11 @@ class LazyCircuit(QbitRegister):
         :param nqbits (int, optional): Number of Qbits in the Quantum Register. Defaults to 2.
         :param name (str, optional): Label of the register. Defaults to "qregister".
         """
-
+       
         
-        self.circuit = self.create_circuit()
+        self.circuit = self.create_circuit()(identity(2**nqbits,dtype=int))
         QbitRegister.__init__(self,nqbits,name)
+
 
         
     def create_circuit(self): 
@@ -58,7 +60,7 @@ class LazyCircuit(QbitRegister):
         
     def addToCircuit(self,  gate, ith_qbit=None,name=None):
         """Applies a gate to the ith qbit in the quantum register. If the gate is a 2D gate then it is applied to the ith and (i+1)th qbit.
-        Args:
+   
         :param    gate (Numpy Array): Gate to be applied
         :param    ith_qbit (int): ith qbit to be operated on
         """

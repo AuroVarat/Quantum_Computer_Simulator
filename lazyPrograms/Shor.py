@@ -1,9 +1,9 @@
-from lazyCircuit.lazyCircuit import QbitRegister
+
 
 import numpy as np
 
 from scipy.sparse import eye,kron
-
+import sys
 sys.path.append("../resources")
 sys.path.append("./resources")
 from qCircuit import LazyCircuit

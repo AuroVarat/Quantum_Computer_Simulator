@@ -8,7 +8,7 @@ Documentation for Qbit Quantum Simulator
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Modules:
 
    Circuit
    Register
