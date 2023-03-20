@@ -89,6 +89,7 @@ class QbitGate(gateMatrices,InputErrorCheck):
         """
         
         ith_qbit = ith_qbit - 1 # removes 0th qubit and makes the first qubit -> 1 
+        print(ith_qbit)
         eyeL = eye(2**ith_qbit, dtype=np.complex)
     
         eyeR = eye(2**(self.nqbits - ith_qbit - int(gate.shape[0]**0.5)), 
@@ -141,6 +142,7 @@ class QbitGate(gateMatrices,InputErrorCheck):
             self.addToCircuit(self.H_all,name=name)
        
         elif type(ith_qbit) == int:
+            print(self.H_2x2)
             self.addToCircuit(self.H_2x2,ith_qbit,name=(name))
         elif len(ith_qbit) > 1 & self.is_series(ith_qbit):
             self.addToCircuit(self.H(len(ith_qbit)),ith_qbit[0],name=(name))
@@ -217,7 +219,7 @@ class QbitGate(gateMatrices,InputErrorCheck):
             Phi (float): Phase angle. Default is pi.
 
         """
-        
+      
         self.check_qubit_input_for_cgate(control_qbit,target_qbit)
         assert type(control_qbit) == int, "The control qubit must be an integer."
         
@@ -226,17 +228,17 @@ class QbitGate(gateMatrices,InputErrorCheck):
             for j in target_qbit:
                 if j - control_qbit != 1:
                     self.swap(control_qbit,j)      
-                    self.addToCircuit(self.cP(phi),control_qbit,j,name=(name+"_"+str(control_qbit)+"_"+str(target_qbit)))
+                    self.addToCircuit(self.cP(phi),control_qbit,name=(name+"_"+str(control_qbit)+"_"+str(j)))
                     self.unswap(control_qbit,j)
                 else:
-                    self.addToCircuit(self.cP(phi),control_qbit,j,name=(name+"_"+str(control_qbit)+"_"+str(target_qbit)))
+                    self.addToCircuit(self.cP(phi),control_qbit,name=(name+"_"+str(control_qbit)+"_"+str(j)))
         else:
             if target_qbit - control_qbit != 1:
                     self.swap(control_qbit,target_qbit)      
-                    self.addToCircuit(self.cP(phi),control_qbit,j,name=(name+"_"+str(control_qbit)+"_"+str(target_qbit)))
+                    self.addToCircuit(self.cP(phi),control_qbit,name=(name+"_"+str(control_qbit)+"_"+str(target_qbit)))
                     self.unswap(control_qbit,target_qbit)
             else:
-                    self.addToCircuit(self.cP(phi),control_qbit,target_qbit,name=(name+"_"+str(control_qbit)+"_"+str(target_qbit)))
+                    self.addToCircuit(self.cP(phi),control_qbit,name=(name+"_"+str(control_qbit)+"_"+str(target_qbit)))
                     
     def cx(self,control_qbit,target_qbit,name="CX"):
         """Controlled Pauli-X Gate
@@ -300,12 +302,12 @@ class QbitGate(gateMatrices,InputErrorCheck):
         self.check_qubit_input_for_cgate(ith_qbit,jth_qbit)
         assert type(ith_qbit) and type(jth_qbit) == int, "The qubits must be integers."
        
-        self.swap_status.append((ith_qbit,jth_qbit))
+        self.swap_status.append([ith_qbit,jth_qbit])
         
         if jth_qbit - ith_qbit == 1:
-            self.addToCircuit(self.swap_matrix, ith_qbit,name =(name + "({},{})".format(ith_qbit,jth_qbit)))
+            self.addToCircuit(self.swap_4x4, ith_qbit,name =(name + "({},{})".format(ith_qbit,jth_qbit)))
         else:
-            swap,self.unswap_matrix = self.nonadjacent_control(ith_qbit,jth_qbit,unswap=True)
+            swap,self.unswap_4x4 = self.nonadjacent_swap(ith_qbit,jth_qbit)
             self.addToCircuit(swap,name =(name + "({},{})".format(ith_qbit,jth_qbit)))
             
     def unswap(self,ith_qbit,jth_qbit,name="Unswap"):
@@ -315,18 +317,20 @@ class QbitGate(gateMatrices,InputErrorCheck):
             jth_qbit (nth qubit): Selects the qubit(s) to be operated on. If None, applies to all qubits. Required.
         """
         self.check_qubit_input_for_cgate(ith_qbit,jth_qbit)
+       
         assert type(ith_qbit) and type(jth_qbit) == int, "The qubits must be integers."
-        assert (ith_qbit,jth_qbit) in self.swap_status, "The qubits must be swapped before unswapping."
-        assert (jth_qbit,ith_qbit) in self.swap_status, "The qubits must be swapped before unswapping. Did you mean {} and {}?".format(ith_qbit,jth_qbit)
+        assert [ith_qbit,jth_qbit] in self.swap_status, "The qubits must be swapped before unswapping."
+     
+        assert [jth_qbit,ith_qbit] not in self.swap_status, "The qubits must be swapped before unswapping. Did you mean {} and {}?".format(ith_qbit,jth_qbit)
         
         if jth_qbit - ith_qbit == 1:
-            self.addToCircuit(self.swap_matrix, ith_qbit,name =(name + "({},{})".format(ith_qbit,jth_qbit)))
+            self.addToCircuit(self.swap_4x4, ith_qbit,name =(name + "({},{})".format(ith_qbit,jth_qbit)))
             #remove unswapped qubits from swap_status
-            self.swap_status.remove((ith_qbit,jth_qbit))
+            self.swap_status.remove([ith_qbit,jth_qbit])
         else:
-            self.addToCircuit(self.unswap_matrix,name =(name + "({},{})".format(ith_qbit,jth_qbit)))
+            self.addToCircuit(self.unswap_4x4,name =(name + "({},{})".format(ith_qbit,jth_qbit)))
             #remove unswapped qubits from swap_status
-            self.swap_status.remove((ith_qbit,jth_qbit))
+            self.swap_status.remove([ith_qbit,jth_qbit])
             
     def mcz(self,control_qubits,target_qubit,name="MCZ"):
         """Applies a multi-controlled Toffoli gate.
@@ -359,9 +363,10 @@ class QbitGate(gateMatrices,InputErrorCheck):
             jth_qbit (nth qubit): Selects the qubit(s) to be operated on. If None, applies to all qubits. Required.
             unswap (bool): If true, creates an unswap gate.
         """     
-        swap = self.operation(self.swap_matrix,ith_qbit)
+       
+        swap = self.operation(self.swap_4x4,ith_qbit)
         for j in range(ith_qbit+1,jth_qbit):
-            swap = swap @ self.operation(self.swap_matrix,j)
+            swap = swap @ self.operation(self.swap_4x4,j)
     
       
         return swap,inv(swap)

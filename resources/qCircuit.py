@@ -100,7 +100,7 @@ class LazyCircuit(QbitRegister):
 
     
 
-        return state,np.amax(state_probability),self.timer
+        return self.basisSpace
         
     def to_gate(self):
         """Converts the quantum register to a gate
@@ -137,9 +137,9 @@ class EagerCircuit(QbitRegister):
         """
         self.timer = time.time() - self.timer #time taken to run the circuit
       
-        state_probability = np.abs(self.basisSpace)**2 #probability of each state
+        self.state_probability = np.abs(self.basisSpace)**2 #probability of each state
         #get the index where the probability is highest
-        state_found = np.where(state_probability == np.amax(state_probability))
+        state_found = np.where(self.state_probability == np.amax(self.state_probability))
         #get the state with the highest probability
         state = self.registerStates[state_found[0][0]]
       
@@ -150,11 +150,11 @@ class EagerCircuit(QbitRegister):
         print("-----\t\t-----------")
         for i in range(len(self.registerStates)):
             #print if probability is greater than 0.5%
-            if state_probability[i] > 0.5:
-                print("{}\t\t{:.2f}%".format(self.registerStates[i],state_probability[i]*100))
+            if self.state_probability[i] > 0.5:
+                print("{}\t\t{:.2f}%".format(self.registerStates[i],self.state_probability[i]*100))
         print("Time taken to run the circuit: {:.2f} seconds".format(self.timer))
 
-        return state,np.amax(state_probability),self.timer,self.rotations
+        return self.basisSpace
 
 
     

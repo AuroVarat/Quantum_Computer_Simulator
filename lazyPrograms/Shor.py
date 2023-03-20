@@ -19,7 +19,7 @@ def main():
     def c_amod15(a,power):
         if a not in [2,4,7,8,11,13]:
             raise ValueError("'a' must be 2,4,7,8,11 or 13")
-        U = LazyCircuit(Uqbits)
+        U = LazyCircuit(Uqbits,name="c_amod15")
         for _ in range(power):
             if a in [2,13]:
                 U.swap(3,4)
@@ -47,7 +47,7 @@ def main():
  
 
     Q = LazyCircuit(n_count + 4)
-    Q.hadamard()
+    Q.h()
     Q.x(n_count+1)
 
 
@@ -55,24 +55,15 @@ def main():
         
         Q.swap(q,8)     
         Q.addToCircuit(c_amod15(a, 2**q), 8,name="c_amod15")  
-        
         Q.unswap(q,8)
         
     Q.addToCircuit(c_amod15(a, 2**8), 8,name="c_amod15")
       
-    g = rc.qft_dagger(n_count).shape
+    # g = rc.qft_dagger(n_count).shape
     
-    # # Do inverse-QFT
-    eyeL = eye(2**1, dtype=np.complex,format='csr')
-    eyeR = eye(2**(12 - 0 - 8), 
-                dtype = np.complex,format='csr')
+   
     
-            # Tensor product of the gate and the identity matrices
-            # eyeL ⊗ t ⊗ eyeR
-    t_all = kron(kron(eyeL, g), eyeR)
-    # print(t_all.shape)
-    
-    Q.addToCircuit(rc.qft_dagger(n_count),ith_qbit= 1, name="qft_dagger")
+    Q.addToCircuit(rc.qft_dagger(n_count),1, name="qft_dagger")
 
 
 

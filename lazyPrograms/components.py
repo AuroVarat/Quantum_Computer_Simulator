@@ -25,16 +25,17 @@ class reusableComponents():
         def qft_dagger(nqbits):
             """n-qubit QFTdagger the first n qubits in circ"""
             
-            qc = LazyCircuit(nqbits)
+            qc = LazyCircuit(nqbits,"QFTdagger")
             # Don't forget the Swaps!
             for qubit in range(nqbits//2):
                 qc.swap(qubit+1, nqbits)
             for j in range(nqbits):
                 for m in range(j):
                 
-                    qc.cp(m+1, j+1,phi=-np.pi/float(2**(j-m)))
-                    
+                    qc.cp(int(m+1), int(j+1),phi=-np.pi/float(2**(j-m)))
+                print(j+1)
                 qc.h(j+1)
+                
         
             return  qc.to_gate()
 

@@ -63,7 +63,7 @@ class gateMatrices():
         self.swap_4x4 = diags([[0,1,0],[1,0,0,1],[0,1,0]],offsets=[-1,0,1],format='csr')
         #Phase Shift
         self.P_2x2 = lambda phi : diags([1,np.exp(1j*phi)],format ='csr')
-        self.cP = lambda phi : self.addControl(self.p(phi))
+        self.cP = lambda phi : self.addControl(self.P_2x2(phi))
         #Reflection about the 1st Qubit
         self.reflection = diags([1,*-np.ones(self.N-1)],format='csr')
         
