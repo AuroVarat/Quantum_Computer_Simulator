@@ -5,7 +5,7 @@ sys.path.append("../resources")
 sys.path.append("./resources")
 from qCircuit import LazyCircuit
 from scipy.sparse import diags
-
+import time
 
 
 isq2 = 1/np.sqrt(2) # 1/sqrt(2)isq2 = 1/np.sqrt(2) # 1/sqrt(2)
@@ -31,31 +31,31 @@ def main():
  
     
  
-    def grover_iterate(nqubits):
-        qc = LazyCircuit(nqubits)
+    def grover_iterate(nqubits,oracle):
+        qc = LazyCircuit(nqubits,"Grover Diffuser Gate")
         qc.set_oracle(oracle)
         qc.addToCircuit(oracle)
         qc.h()
-        qc.reflect()  # multi-controlled-toffoli
+        qc.reflect()  
         qc.h()
      
         # We will return the diffuser as a gate
         U_s = qc.to_gate()
         U_s = qc.power(U_s,qc.rotations)
        
-        return U_s
+        return U_s,qc.rotations
     
-    # t1= time.time()
-
+  
     
-    Q = LazyCircuit(nqubits)
-
+    Q = LazyCircuit(nqubits,"Grover")
+    
     Q.h()
+    gi,number_of_rotations = grover_iterate(nqubits,oracle)
+    
+    Q.addToCircuit(gi,name="Grover Diffuser")
+    # Q.sequence()
+    return Q.measure(),number_of_rotations
 
-    Q.addToCircuit(grover_iterate(nqubits),name="Grover Diffuser")
-   
-    print(np.amax(Q.measure().real))
-    Q.sequence()
     # t2 = time.time()
 
     # tt = t2-t1
@@ -69,8 +69,15 @@ def main():
     #%%
 
 if __name__ == '__main__':
+    
    
+    circuit_output = main()
+    #append circuit output to a txt file
+    with open("groverLazy.txt", "a") as f:
+        f.write(str(nqubits)+",")
+        f.write(','.join(map(str, circuit_output[0])))
+        f.write(","+str(circuit_output[1])+"\n")
+        
    
-    main()
-  
+        
   

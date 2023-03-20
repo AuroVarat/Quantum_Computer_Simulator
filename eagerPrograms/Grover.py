@@ -44,13 +44,16 @@ def main():
     # circuit.visualise_state_history()
     # circuit.visualise_probability()
 
-    circuit.output()
+    return circuit.measure()
 
 
     #%%
 
 if __name__ == '__main__':
 
-    main()
+    circuit_output = main()
+    with open("groverEager.txt", "a") as f:
+        f.write(str(nqubits)+",")
+        f.write(','.join(map(str, circuit_output))+"\n")
 
   

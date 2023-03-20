@@ -16,7 +16,7 @@ import sys
 sys.path.append("../resources")
 sys.path.append("./resources")
 from qRegister import QbitRegister
-
+import time
 
 class LazyCircuit(QbitRegister):
   
@@ -34,10 +34,10 @@ class LazyCircuit(QbitRegister):
         :param name (str, optional): Label of the register. Defaults to "qregister".
         """
        
-        
+        self.timer = time.time()
         self.circuit = self.create_circuit()(identity(2**nqbits,dtype=int))
         QbitRegister.__init__(self,nqbits,name)
-        print("{} initialised with {} qbits.".format(self.name,self.nqbits))
+        print("--> {} initialised with {} qbits.".format(self.name,self.nqbits))
 
         
     def create_circuit(self): 
@@ -63,7 +63,9 @@ class LazyCircuit(QbitRegister):
    
         :param    gate (Numpy Array): Gate to be applied
         :param    ith_qbit (int): ith qbit to be operated on
+        
         """
+
         if ith_qbit != None:
             self.circuit = self.circuit(self.operation(gate,ith_qbit))
             self.circuitSeq.append((name,ith_qbit))
@@ -77,9 +79,28 @@ class LazyCircuit(QbitRegister):
         
         :returns: Measurement result (1D Numpy Array) 
         """
-        self.basisSpace = self.circuit(self.basisSpace,measure=True)
-        print(str(self.basisSpace.real)+"\n")
-        return self.basisSpace
+        self.timer = time.time() - self.timer #time taken to run the circuit
+        self.basisSpace = self.circuit(self.basisSpace,measure=True) #basis space after measurement
+        state_probability = np.abs(self.basisSpace)**2 #probability of each state
+        #get the index where the probability is highest
+        state_found = np.where(state_probability == np.amax(state_probability))
+        #get the state with the highest probability
+        state = self.registerStates[state_found[0][0]]
+      
+
+        #print a table containing the state and its probability only if probability is greater than 0.5%
+      
+        print("State\t\tProbability")
+        print("-----\t\t-----------")
+        for i in range(len(self.registerStates)):
+            #print if probability is greater than 0.5%
+            if state_probability[i] > 0.5:
+                print("{}\t\t{:.2f}%".format(self.registerStates[i],state_probability[i]*100))
+        print("Time taken to run the circuit: {:.2f} seconds".format(self.timer))
+
+    
+
+        return state,np.amax(state_probability),self.timer
         
     def to_gate(self):
         """Converts the quantum register to a gate
@@ -104,13 +125,36 @@ class EagerCircuit(QbitRegister):
         :param name (str, optional): Label of the register. Defaults to "qregister".
         """
         
-        
+        self.timer = time.time()
         self.state_history = []
         self.marked_state_history = []
         QbitRegister.__init__(self,nqbits,name)
    
-       
- 
+    def measure(self):
+        """Measures the quantum register in the computational basis and returns the result.
+        
+        :returns: Measurement result (1D Numpy Array) 
+        """
+        self.timer = time.time() - self.timer #time taken to run the circuit
+      
+        state_probability = np.abs(self.basisSpace)**2 #probability of each state
+        #get the index where the probability is highest
+        state_found = np.where(state_probability == np.amax(state_probability))
+        #get the state with the highest probability
+        state = self.registerStates[state_found[0][0]]
+      
+      
+        #print a table containing the state and its probability only if probability is greater than 0.5%
+      
+        print("State\t\tProbability")
+        print("-----\t\t-----------")
+        for i in range(len(self.registerStates)):
+            #print if probability is greater than 0.5%
+            if state_probability[i] > 0.5:
+                print("{}\t\t{:.2f}%".format(self.registerStates[i],state_probability[i]*100))
+        print("Time taken to run the circuit: {:.2f} seconds".format(self.timer))
+
+        return state,np.amax(state_probability),self.timer,self.rotations
 
 
     

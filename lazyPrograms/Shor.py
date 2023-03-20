@@ -7,6 +7,7 @@ import sys
 sys.path.append("../resources")
 sys.path.append("./resources")
 from qCircuit import LazyCircuit
+from components import reusableComponents as rc
 
 
 
@@ -18,7 +19,7 @@ def main():
     def c_amod15(a,power):
         if a not in [2,4,7,8,11,13]:
             raise ValueError("'a' must be 2,4,7,8,11 or 13")
-        U = QbitRegister(Uqbits)
+        U = LazyCircuit(Uqbits)
         for _ in range(power):
             if a in [2,13]:
                 U.swap(3,4)
@@ -36,20 +37,8 @@ def main():
         Us = U.to_gate()
         cU = U.addControl(Us)
         return cU
-    def qft_dagger(n):
-        """n-qubit QFTdagger the first n qubits in circ"""
-        qc = QbitRegister(n)
-        # Don't forget the Swaps!
-        for qubit in range(n//2):
-            qc.swap(qubit+1, n-qubit)
-        for j in range(n):
-            for m in range(j):
-            
-                qc.control_phase_shift(m+1, j+1,phi=-np.pi/float(2**(j-m)))
-                
-            qc.hadamard(j+1)
-      
-        return  qc.to_gate()
+ 
+
 
     
         # Specify variables
@@ -57,7 +46,7 @@ def main():
     a = 7
  
 
-    Q = QbitRegister(n_count + 4)
+    Q = LazyCircuit(n_count + 4)
     Q.hadamard()
     Q.x(n_count+1)
 
@@ -71,7 +60,7 @@ def main():
         
     Q.addToCircuit(c_amod15(a, 2**8), 8,name="c_amod15")
       
-    g = qft_dagger(n_count).shape
+    g = rc.qft_dagger(n_count).shape
     
     # # Do inverse-QFT
     eyeL = eye(2**1, dtype=np.complex,format='csr')
@@ -83,7 +72,7 @@ def main():
     t_all = kron(kron(eyeL, g), eyeR)
     # print(t_all.shape)
     
-    Q.addToCircuit(qft_dagger(n_count),ith_qbit= 1, name="qft_dagger")
+    Q.addToCircuit(rc.qft_dagger(n_count),ith_qbit= 1, name="qft_dagger")
 
 
 

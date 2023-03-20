@@ -103,7 +103,8 @@ class QbitGate(gateMatrices,InputErrorCheck):
         self.oracle_matrix = oracle
       
         self.M = np.count_nonzero(self.oracle_matrix.diagonal() == -1)
-        self.rotations = int(np.ceil(np.pi/4 * np.sqrt(self.N/self.M) - 0.5))
+        self.rotations = int(np.around(np.pi/4 * np.sqrt(self.N/self.M) - 0.5,0))
+
         if recorder: 
             self.recording = True
             self.winnerState = self.oracle_matrix.diagonal() == -1

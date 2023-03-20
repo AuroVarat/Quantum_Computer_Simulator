@@ -42,14 +42,12 @@ class QbitRegister(QbitGate,qVisualiser):
         self.basisSpace = np.zeros(self.N, dtype=int) #  basis state formed by tensor product of all qbits
         self.basisSpace[0] = 1 #all qbits are by default initialised to |0>
         self.circuitSeq = []
+        self.registerStates=[format(i, f'0{self.nqbits}b') for i in range(self.N)]
         QbitGate.__init__(self)
         
        
        
 
-    def output(self):
-        print(str(np.around(self.basisSpace.real))+"\n")
-        return self.basisSpace
            
     def __str__(self):
         """Prints the quantum register in the basis space
