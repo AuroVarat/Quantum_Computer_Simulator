@@ -3,12 +3,18 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Qbit's documentation!
+Documentation for Qbit Quantum Simulator
 ================================
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Modules:
+
+   Circuit
+   Register
+   Gate
+   Preloaders
+   Visualisation
 
 
 
