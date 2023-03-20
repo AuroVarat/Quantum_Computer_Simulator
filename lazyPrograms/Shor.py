@@ -68,8 +68,10 @@ def main():
 
 
     # Measure circuit
-    print(Q.measure())
-
+    result = Q.measure().real
+ 
+    np.savetxt("Shor.txt", np.c_[np.asarray(Q.registerStates),np.asarray(result)],delimiter = ',',fmt="%s")
+ 
 
 
 
