@@ -1,0 +1,7 @@
+
+__pycache__
+*.uxf
+*.db
+source
+*.bat
+Makefile
