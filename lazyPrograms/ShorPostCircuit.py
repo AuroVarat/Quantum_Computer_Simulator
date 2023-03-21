@@ -18,14 +18,11 @@ state = [x[4:] for x in state]
 # make pandas column with state and probability
 df = pd.DataFrame({'state':state,'prob':prob})
 
-#make histogram of number of counts of states with probability > 0.01
-df['state'][df['prob']>0.001].value_counts().plot(kind='bar')
-#x axis label vertical
-# the plot is cuttong off
-plt.xticks(rotation=0)
-plt.xlabel('State')
-plt.ylabel('Counts')
-plt.title('Shor Algorithm')
-        
-#save fig
+
+#probability of the first 15 state plot
+plt.figure(figsize=(10,5))
+plt.bar(df['state'][:15],df['prob'][:15])
+plt.xlabel('state')
+plt.ylabel('probability')
+plt.title('probability of the first 15 state')
 plt.savefig('Shor.png')

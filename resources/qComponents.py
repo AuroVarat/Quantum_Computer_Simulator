@@ -9,7 +9,7 @@ class reusableComponents():
             pass
         @staticmethod
         def grover_iterate(nqbits,oracle):
-            qc = LazyCircuit(nqbits)
+            qc = LazyCircuit(nqbits,"Grover Iterator")
             qc.set_oracle(oracle)
             qc.addToCircuit(oracle)
             qc.h()

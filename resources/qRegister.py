@@ -35,7 +35,7 @@ class QbitRegister(QbitGate,qVisualiser):
         """
        
         
-        self.name = name
+        self.RegisterName = name
         self.nqbits = nqbits
         self.N = 2**self.nqbits
         self.M = 1
@@ -56,8 +56,34 @@ class QbitRegister(QbitGate,qVisualiser):
         return "Register in the {} dimension basis space.\n".format(self.nqbits)
 
     def set_state(self,state):
-        self.basisSpace = state
-    
+        """
+        Sets the state of the quantum register to the state specified by the input state.
+
+        
+        :param:    state (int/list): can be a int showing the qubit state("110") or list of qubit states([ [1,0],[0,1],[0.5,0.5]]). The list supports float values. 
+        """
+        if type(state) == str:
+            try:
+                index = np.where(np.asarray(self.registerStates) == str(state))[0][0]
+            except:
+                print("Invalid state. Please enter a valid state.")
+                return
+          
+        
+            
+            basis = np.zeros(self.N, dtype=int)
+            basis[index] = 1
+            self.basisSpace = basis
+        elif type(state) == list:
+            basis = state[0]
+            for i in range(len(state)):
+                basis = state[i]@basis
+            self.basisSpace = basis
+            
+                
+        else:
+            print("Invalid state. Please enter a valid state.")
+            return
     def sequence(self):
         """Prints the circuit sequence of the quantum register
         """

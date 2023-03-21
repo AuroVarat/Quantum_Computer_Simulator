@@ -7,7 +7,7 @@ import sys
 sys.path.append("../resources")
 sys.path.append("./resources")
 from qCircuit import LazyCircuit
-from components import reusableComponents as rc
+from resources.qComponents import reusableComponents as rc
 
 
 
@@ -43,7 +43,7 @@ def main():
     
         # Specify variables
     n_count = 8  # number of counting qubits
-    a = 7
+    a =11
  
 
     Q = LazyCircuit(n_count + 4)

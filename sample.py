@@ -1,7 +1,9 @@
+#play around to create your own circuit if you would like
 import sys
 
+
 from resources.qCircuit import LazyCircuit
-from lazyPrograms.components import reusableComponents as rc
+from resources.qComponents import reusableComponents as rc
 
 
 

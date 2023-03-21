@@ -39,9 +39,9 @@ class InputErrorCheck():
             ith_qbit = np.asarray(ith_qbit)
             assert (ith_qbit <= self.nqbits).all(), "The qubit must be less than the number of qubits"
             assert (ith_qbit >= 1).all(), "The qubit must be greater than or equal to 1"
-            if ~self.is_series(ith_qbit) and self.is_series(np.sort(ith_qbit)):
+            #if ~self.is_series(ith_qbit) and self.is_series(np.sort(ith_qbit)):
                 #add warning
-                print("Warning: The qubits are not in series. The gate will be applied to the qubits in the order they are passed. It is more efficient to pass the qubits in series for some gates.")
+                #print("Warning: The qubits are not in series. The gate will be applied to the qubits in the order they are passed. It is more efficient to pass the qubits in series for some gates.")
             # assert ith_qbit[1] - ith_qbit[0] == 1, "The qubits must be adjacent"
    
     def check_qubit_input_for_cgate(self,ith_qbit,jth_qbit):
@@ -99,12 +99,25 @@ class QbitGate(gateMatrices,InputErrorCheck):
     
         return kron(kron(eyeL, gate), eyeR)
 
+    
+    
+   
     def set_oracle(self,oracle,recorder = False):
         
         self.oracle_matrix = oracle
-      
-        self.M = np.count_nonzero(self.oracle_matrix.diagonal() == -1)
-        self.rotations = int(np.around(np.pi/4 * np.sqrt(self.N/self.M) - 0.5,0))
+        
+        self.M = np.count_nonzero(np.isclose(self.oracle_matrix.diagonal(), -1))
+
+        self.rotations = 0
+        
+        try:
+            self.rotations = int(np.around(np.pi/4 * np.sqrt(self.N/self.M) - 0.5,0))
+        except ZeroDivisionError:
+            
+                # print OracleError that there is no target state in oracle
+                print("OracleError: There is no target state in the oracle")
+                exit()
+                
 
         if recorder: 
             self.recording = True
@@ -115,12 +128,9 @@ class QbitGate(gateMatrices,InputErrorCheck):
             self.s_prime = self.s_prime/np.linalg.norm(self.s_prime)            
        
        
-        
     def oracle(self):
         assert self.oracle_matrix != None, "No oracle has been set"
         self.addToCircuit(self.oracle_matrix,name="Oracle")
-        
-    
       
         
     def h(self,ith_qbit=None,name="Hadamard"):
@@ -144,9 +154,10 @@ class QbitGate(gateMatrices,InputErrorCheck):
         elif type(ith_qbit) == int:
          
             self.addToCircuit(self.H_2x2,ith_qbit,name=(name))
-        elif len(ith_qbit) > 1 & self.is_series(ith_qbit):
-            self.addToCircuit(self.H(len(ith_qbit)),ith_qbit[0],name=(name))
-        elif len(ith_qbit) > 1 & ~self.is_series(ith_qbit):
+        # elif len(ith_qbit) > 1 & self.is_series(ith_qbit):
+            
+        #     self.addToCircuit(self.H(len(ith_qbit)),ith_qbit[0],name=(name))
+        elif len(ith_qbit) > 1:
             for i in ith_qbit:
                 self.addToCircuit(self.H_2x2,i,name=(name))
     
@@ -165,6 +176,7 @@ class QbitGate(gateMatrices,InputErrorCheck):
         elif type(ith_qbit) == int:
             self.addToCircuit(self.X_2x2,ith_qbit,name=(name+"_"+str(ith_qbit)))
         elif len(ith_qbit) > 1:
+            assert self.is_series(ith_qbit), "The qubits must be in adjacent series. Use a for loop to apply the gate to each qubit."
             self.addToCircuit(self.X(len(ith_qbit)),ith_qbit[0],name=(name+"_"+str(ith_qbit)))
         
     def z(self,ith_qbit=None,name="Z"):
@@ -177,9 +189,17 @@ class QbitGate(gateMatrices,InputErrorCheck):
             
         """
         self.check_qubit_input_for_gate(ith_qbit)
-        
-        for i in ith_qbit:
-            self.addToCircuit(self.Z_2x2,i,name=("Z_"+str(i)))
+       
+        if ith_qbit == None:
+            for i in range(self.nqbits):
+                self.addToCircuit(self.Z_2x2,i,name=(name+"_"+str(i)))
+    
+        elif type(ith_qbit) == int:
+            self.addToCircuit(self.Z_2x2,ith_qbit,name=(name+"_"+str(ith_qbit)))
+        elif len(ith_qbit) > 1:
+            
+              for i in ith_qbit:
+                self.addToCircuit(self.Z_2x2,i,name=(name+"_"+str(i)))
     
     def p(self,ith_qbit,phi=np.pi,name="Phase Shift"):
         """Phase Gate
@@ -281,17 +301,17 @@ class QbitGate(gateMatrices,InputErrorCheck):
             for j in target_qbit:
                 if j - control_qbit != 1:
                     self.swap(control_qbit+1,j)
-                    self.addToCircuit(self.CZ_4x4,control_qbit,name=("CZ_"+str(j)))
+                    self.addToCircuit(self.cZ_4x4,control_qbit,name=("CZ_"+str(j)))
                     self.unswap(control_qbit+1,j)
                 else:
-                    self.addToCircuit(self.CZ_4x4,control_qbit,name=("CZ_"+str(j)))
+                    self.addToCircuit(self.cZ_4x4,control_qbit,name=("CZ_"+str(j)))
         else:
             if target_qbit - control_qbit != 1:
                 self.swap(control_qbit+1,target_qbit)
-                self.addToCircuit(self.CZ_4x4,control_qbit,name=("CZ_"+str(target_qbit)))
+                self.addToCircuit(self.cZ_4x4,control_qbit,name=("CZ_"+str(target_qbit)))
                 self.unswap(control_qbit+1,target_qbit)
             else:
-                self.addToCircuit(self.CZ_4x4,control_qbit,name=("CZ_"+str(target_qbit)))
+                self.addToCircuit(self.cZ_4x4,control_qbit,name=("CZ_"+str(target_qbit)))
     
     def swap(self,ith_qbit,jth_qbit,name="Swap"):
         """Swap Gate
@@ -333,6 +353,28 @@ class QbitGate(gateMatrices,InputErrorCheck):
             self.swap_status.remove([ith_qbit,jth_qbit])
             
     def mcz(self,control_qubits,target_qubit,name="MCZ"):
+        """Applies a multi-controlled Z gate.
+        Args:
+            control_qubits (list(int)): List of control qubits
+            target_qubit (int): Target qubit
+         
+       
+        """
+        self.check_qubit_input_for_gate(control_qubits)
+        self.check_qubit_input_for_gate(target_qubit)
+        self.check_qubit_input_for_cgate(control_qubits,target_qubit)
+        self.check_qubit_input_for_mcgate(control_qubits,target_qubit)
+       
+        n = len(control_qubits)
+        if target_qubit - control_qubits[-1] == 1:
+            self.addToCircuit(self.mcZ(n),control_qubits[0],name=("MCZ_"+str(target_qubit)))
+        elif len(control_qubits) == self.nqbits-1:
+            self.addToCircuit(self.mcZ(n),name=("MCZ_"+str(target_qubit)))
+        else:
+            self.swap(control_qubits[-1]+1,target_qubit)
+            self.addToCircuit(self.mcZ(n),control_qubits[0],name=("MCZ_"+str(target_qubit)))
+            self.unswap(control_qubits[-1]+1,target_qubit)
+    def mct(self,control_qubits,target_qubit,name="MCT"):
         """Applies a multi-controlled Toffoli gate.
         Args:
             control_qubits (list(int)): List of control qubits
@@ -345,16 +387,36 @@ class QbitGate(gateMatrices,InputErrorCheck):
         self.check_qubit_input_for_cgate(control_qubits,target_qubit)
         self.check_qubit_input_for_mcgate(control_qubits,target_qubit)
        
-
+        n = len(control_qubits)
         if target_qubit - control_qubits[-1] == 1:
-            self.addToCircuit(self.mcZ,control_qubits[0],name=("MCZ_"+str(target_qubit)))
+            self.addToCircuit(self.mctoff(n),control_qubits[0],name=("MCT_"+str(target_qubit)))
         elif len(control_qubits) == self.nqbits-1:
-            self.addToCircuit(self.mcZ,name=("MCZ_"+str(target_qubit)))
+            self.addToCircuit(self.mctoff(n),name=("MCZ_"+str(target_qubit)))
         else:
             self.swap(control_qubits[-1]+1,target_qubit)
-            self.addToCircuit(self.mcZ,control_qubits,name=("MCZ_"+str(target_qubit)))
+            self.addToCircuit(self.mctoff(n),control_qubits[0],name=("MCT_"+str(target_qubit)))
             self.unswap(control_qubits[-1]+1,target_qubit)
-        
+            
+    def t(self,control_qubits,target_qubit,name="Toffoli"):
+        """T Gate
+        Args:
+            qubit (nth qubit): Selects the qubit(s) to be operated on. Required.
+        """
+        self.check_qubit_input_for_gate(control_qubits)
+        self.check_qubit_input_for_gate(target_qubit)
+        self.check_qubit_input_for_cgate(control_qubits,target_qubit)
+        self.check_qubit_input_for_mcgate(control_qubits,target_qubit)
+
+        assert len(control_qubits) == 2, "The Toffoli gate requires 2 control qubits."
+
+        if target_qubit - control_qubits[-1] == 1:
+            self.addToCircuit(self.toff,control_qubits[0],name=("MCZ_"+str(target_qubit)))
+        elif len(control_qubits) == self.nqbits-1:
+            self.addToCircuit(self.toff,name=("MCZ_"+str(target_qubit)))
+        else:
+            self.swap(control_qubits[-1]+1,target_qubit)
+            self.addToCircuit(self.toff,control_qubits,name=("MCZ_"+str(target_qubit)))
+            self.unswap(control_qubits[-1]+1,target_qubit)
     #Internal Methods
     def nonadjacent_swap(self,ith_qbit,jth_qbit):
         """{Internal Method} Creates a swap gate for non-adjacent qubits.

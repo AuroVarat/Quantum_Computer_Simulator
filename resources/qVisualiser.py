@@ -68,9 +68,10 @@ class qVisualiser():
     def visualise_marked_state(self):
         """Visualises the marked state in the basis space using matplotlib bar chart"""
         assert self.marked_state_history != [], "No marked state history to visualise"
-        print(self.marked_state_history)
-        plt.plot(self.marked_state_history)
-        plt.ylabel("Proabability")
+       
+        plt.plot(np.asarray(self.marked_state_history)**2)
+        plt.title("Probability amplitude of a fixed target state for {} qubits register".format(self.nqbits))
+        plt.ylabel("Proabability Amplitude")
         plt.xlabel("Iteration")
         plt.savefig("./output/{}_marked_state.png".format(self.name))
         plt.close()

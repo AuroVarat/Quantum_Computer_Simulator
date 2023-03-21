@@ -16,6 +16,8 @@ import sys
 sys.path.append("../resources")
 sys.path.append("./resources")
 from qRegister import QbitRegister
+
+
 import time
 
 class LazyCircuit(QbitRegister):
@@ -35,9 +37,9 @@ class LazyCircuit(QbitRegister):
         """
        
         self.timer = time.time()
-        self.circuit = self.create_circuit()(identity(2**nqbits,dtype=int))
+        self.circuit = self.create_circuit()(identity(2**nqbits))
         QbitRegister.__init__(self,nqbits,name)
-        print("--> {} initialised with {} qbits.".format(self.name,self.nqbits))
+        print("--> {} initialised with {} qbits.".format(self.RegisterName,self.nqbits))
 
         
     def create_circuit(self): 
@@ -85,19 +87,18 @@ class LazyCircuit(QbitRegister):
         self.basisSpace = self.circuit(self.basisSpace,measure=True) #basis space after measurement
         state_probability = np.abs(self.basisSpace)**2 #probability of each state
         #get the index where the probability is highest
-        state_found = np.where(state_probability == np.amax(state_probability))
-        #get the state with the highest probability
-        state = self.registerStates[state_found[0][0]]
-      
 
+        #get the state with the highest probability
+        state_found = np.where(state_probability == np.amax(state_probability))
+       
         #print a table containing the state and its probability only if probability is greater than 0.5%
-        if "Grover" in self.name or "grover" in self.name:
+        if  self.RegisterName == "Grover":
             print("State\t\tProbability")
             print("-----\t\t-----------")
             for i in range(len(self.registerStates)):
-                #print if probability is greater than 0.5%
-                if state_probability[i] > 0.5:
-                    print("{}\t\t{:.2f}%".format(self.registerStates[i],state_probability[i]*100))
+                #print if probability is greater than 5%
+                if state_probability[i]*100 > 1:
+                    print("{} ({})\t\t{:.2f}%".format(self.registerStates[i],int(self.registerStates[i],2),state_probability[i]*100))
         print("Time taken to run the circuit: {:.2f} seconds".format(self.timer))
 
     
@@ -110,6 +111,9 @@ class LazyCircuit(QbitRegister):
         :returns: (2D Sparse or Numpy Matrix)Circuit as a gate 
         """
         return self.circuit(identity(self.N),measure=True)
+    
+
+        
     
 class EagerCircuit(QbitRegister):
   
@@ -131,6 +135,7 @@ class EagerCircuit(QbitRegister):
         self.state_history = []
         self.marked_state_history = []
         QbitRegister.__init__(self,nqbits,name)
+        print("--> {} initialised with {} qbits.".format(self.RegisterName,self.nqbits))
    
     def measure(self):
         """Measures the quantum register in the computational basis and returns the result.
@@ -143,17 +148,17 @@ class EagerCircuit(QbitRegister):
         #get the index where the probability is highest
         state_found = np.where(self.state_probability == np.amax(self.state_probability))
         #get the state with the highest probability
-        state = self.registerStates[state_found[0][0]]
-      
+     
+       
       
         #print a table containing the state and its probability only if probability is greater than 0.5%
-      
-        print("State\t\tProbability")
-        print("-----\t\t-----------")
-        for i in range(len(self.registerStates)):
-            #print if probability is greater than 0.5%
-            if self.state_probability[i] > 0.5:
-                print("{}\t\t{:.2f}%".format(self.registerStates[i],self.state_probability[i]*100))
+        if self.RegisterName == "Grover":
+            print("State\t\tProbability")
+            print("-----\t\t-----------")
+            for i in range(len(self.registerStates)):
+                #print if probability is greater than 50%
+                if self.state_probability[i]*100 > 0.5:
+                    print("{} ({})\t\t{:.2f}%".format(self.registerStates[i],int(self.registerStates[i],2),self.state_probability[i]*100))
         print("Time taken to run the circuit: {:.2f} seconds".format(self.timer))
 
         return self.basisSpace
@@ -198,9 +203,8 @@ class EagerCircuit(QbitRegister):
         
         self.marked_state_history.append(self.basisSpace.real[marked_state_index])
 
-   
-       
-       
+        
+  
        
        
        

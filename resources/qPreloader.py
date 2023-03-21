@@ -49,12 +49,12 @@ class gateMatrices():
         #V gate
         self.V = diags([1,1j],format='csr')
         #Pauli X and derivatives
-        self.X = lambda n: csr_matrix(np.fliplr(np.eye(n)))
+        self.X = lambda n: csr_matrix(np.fliplr(np.eye(2**n)))
         self.X_all = csr_matrix(np.fliplr(np.eye(self.N)))
-        self.X_2x2 = self.X(2)
+        self.X_2x2 = self.X(1)
         self.cX_4x4 = self.addControl(self.X_2x2)
-        self.t = self.addControl(self.X_2x2,control_qubits=2)
-        self.mct = lambda nC:  self.addControl(self.X_2x2,control_qubits=nC)
+        self.toff = self.addControl(self.X_2x2,control_qubits=2) # not using T becausse could be transpose 
+        self.mctoff = lambda nC:  self.addControl(self.X_2x2,control_qubits=nC)
         #Pauli Z and derivatives
         self.Z_2x2 = diags([1,-1],format='csr')
         self.cZ_4x4 = self.addControl(self.Z_2x2)
