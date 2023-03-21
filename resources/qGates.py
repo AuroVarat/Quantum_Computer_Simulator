@@ -20,8 +20,19 @@ from qPreloader import gateMatrices
 
 
 class InputErrorCheck():
+    """Contains methods to check the input for the gates in the QbitGate class.
+    """
+    
     @staticmethod
     def is_series(lst):
+        """Checks if the list is in adjacent series.
+
+       
+        :param  lst (list/Array):  List of integers
+
+        
+        :returns  boolean:  True if the list is in adjacent series, False otherwise.
+        """
         if len(lst) < 2:
             return False
         diff = 1
@@ -31,6 +42,11 @@ class InputErrorCheck():
         return True
     
     def check_qubit_input_for_gate(self,ith_qbit):
+        """ Checks if the input for the gate is valid.
+
+        
+        :param ith_qbit (int/list):  The qubit or list of qubits on which the gate is to be applied.
+        """
         assert ith_qbit == None or type(ith_qbit) == int or type(ith_qbit) == list, "ith_qbit must be an integer or a list of integers"
         if type(ith_qbit) == int:
             assert ith_qbit <= self.nqbits, "The qubit must be less than the number of qubits"
@@ -45,6 +61,12 @@ class InputErrorCheck():
             # assert ith_qbit[1] - ith_qbit[0] == 1, "The qubits must be adjacent"
    
     def check_qubit_input_for_cgate(self,ith_qbit,jth_qbit):
+        """ Checks if the input for the controlled gate is valid.
+
+     
+        :param  ith_qbit (int):  The control qubit
+        :param  jth_qbit (int):  The target qubit
+        """
         self.check_qubit_input_for_gate(ith_qbit)
         self.check_qubit_input_for_gate(jth_qbit)
         
@@ -54,6 +76,12 @@ class InputErrorCheck():
         assert (jth_qbit > ith_qbit).any(), "All target qubits must be greater than the control qubits"
     
     def check_qubit_input_for_mcgate(self,control_qubits,target_qbit):
+        """ Checks if the input for the multi-controlled gate is valid.
+
+  
+        :param  control_qubits (_type_): _description_
+        :param  target_qbit (_type_): _description_
+        """
         assert type(control_qubits) == list, "The control qubits must be a list of integers."
         assert len(control_qubits) > 1, "Must have more than one control qubit"
         assert type(target_qbit) == int, "The target qubit must be an integer."
@@ -64,7 +92,13 @@ class InputErrorCheck():
 
 
 class QbitGate(gateMatrices,InputErrorCheck):
+   
     def __init__(self):
+        """ Initializes the QbitGate class.
+        
+     
+        :ivar  swap_status (list):  List of qubits that have been swapped. Keep track to undo the swaps, if needed.
+        """
     
         self.swap_status = []
         gateMatrices.__init__(self)
@@ -73,8 +107,16 @@ class QbitGate(gateMatrices,InputErrorCheck):
 
     @staticmethod
     def power(gate,n):
-        """Applies the quantum register to itself n times
+        """Applies the quantum gate to itself n times. Helpful for applying something iteratively.
+        
+        :param  gate (Numpy Array):  Gate to be applied
+        :param  n (int):  Number of times the gate is to be applied
+
+        :returns  Numpy Array:  The gate applied to itself n times.
         """
+        assert type(n) == int, "n must be an integer"
+        assert n >= 0, "n must be greater than or equal to 0"
+
         if n == 0:
             return np.eye(gate.shape[0])
         else:
@@ -82,12 +124,16 @@ class QbitGate(gateMatrices,InputErrorCheck):
     
     
     def operation(self, gate, ith_qbit):
-        """Applies a gate to the ith qbit in the quantum register. If the gate is a 2D gate then it is applied to the ith and (i+1)th qbit.
-        Args:
-            gate (Numpy Array): Gate to be applied
-            ith_qbit (int): ith qbit to be operated on
-        """
+        """Applies the gate to the ith qubit. If the gate is 4 x 4, the gate is applied to ith and (i+1)th qubit. 
+        Similarily, for N x N gates, the gate is applied to ith to (i+N-1)th qubit.
+
+        :param  gate (Numpy Array):  Gate to be applied
+        :param  ith_qbit (int):  The qubit on which the gate is to be applied. Also, marks the first in series of qubits on which the gate is to be applied.
+
         
+        :returns  Numpy Array/Sparse Array:  The gate matrix when applied to the Hilbert space vector acts on the ith qubit or the ith to (i+N-1)th qubit.
+        """
+     
         ith_qbit = ith_qbit - 1 # removes 0th qubit and makes the first qubit -> 1 
 
         eyeL = eye(2**ith_qbit, dtype=np.complex)
@@ -103,6 +149,12 @@ class QbitGate(gateMatrices,InputErrorCheck):
     
    
     def set_oracle(self,oracle,recorder = False):
+        """Sets the oracle matrix and the number of target states. Also, sets the number of rotations required to find the target state.
+
+        :param  oracle (Numpy Array/Sparse Array):  The oracle matrix
+        :param  recorder (bool):  If True, the oracle matrix is recorded for Visualisation. Default is False.
+
+        """
         
         self.oracle_matrix = oracle
         
@@ -129,6 +181,8 @@ class QbitGate(gateMatrices,InputErrorCheck):
        
        
     def oracle(self):
+        """Applies the oracle to the circuit. The oracle matrix must be set before applying the oracle.
+        """
         assert self.oracle_matrix != None, "No oracle has been set"
         self.addToCircuit(self.oracle_matrix,name="Oracle")
       
@@ -137,11 +191,9 @@ class QbitGate(gateMatrices,InputErrorCheck):
         """
         Hadamard Gate
 
-        Args:
-            ith_qbit (nth qubit): Selects the qubit(s) to be operated on. If None, applies to all qubits. 
-            Multiple Qubits can be selected by passing a list of qubits, but the qubits must be adjacent.
-            
-            name (str): Name of the gate. Default is "Hadamard"
+        :param  ith_qbit (int):  The qubit on which the Hadamard gate is to be applied. If None, the Hadamard gate is applied to all qubits.
+        :param  name (str):  Name of the gate. Default is "Hadamard"
+
         """
         
         self.check_qubit_input_for_gate(ith_qbit)
@@ -163,35 +215,31 @@ class QbitGate(gateMatrices,InputErrorCheck):
     
     def x(self,ith_qbit=None,name="X"):
         """Pauli-X Gate
-        Args:
-            ith_qbit (nth qubit): ith_qbit (nth qubit): Selects the qubit(s) to be operated on. If None, applies to all qubits. 
-            Multiple Qubits can be selected by passing a list of qubits, but the qubits must be adjacent.
-            
-            name (str): Name of the gate. Default is "X"
+        :param  ith_qbit (int/list):  The qubit(s) on which the Pauli-X gate is to be applied. If None, the Pauli-X gate is applied to all qubits.
+        :param  name (str):  Name of the gate. Default is "X"
         """
         self.check_qubit_input_for_gate(ith_qbit)
        
         if ith_qbit == None:
             self.addToCircuit(self.X_all,name=name)
         elif type(ith_qbit) == int:
+          
             self.addToCircuit(self.X_2x2,ith_qbit,name=(name+"_"+str(ith_qbit)))
         elif len(ith_qbit) > 1:
             assert self.is_series(ith_qbit), "The qubits must be in adjacent series. Use a for loop to apply the gate to each qubit."
             self.addToCircuit(self.X(len(ith_qbit)),ith_qbit[0],name=(name+"_"+str(ith_qbit)))
         
     def z(self,ith_qbit=None,name="Z"):
-        """Pauli-X Gate
-        Args:
-            ith_qbit (nth qubit): ith_qbit (nth qubit): Selects the qubit(s) to be operated on. If None, applies to all qubits. 
-            Multiple Qubits can be selected by passing a list of qubits, but the qubits must be adjacent.
-            
-            name (str): Name of the gate. Default is "Z"
-            
+        """Pauli-Z Gate
+        
+        :param  ith_qbit (int/list):  The qubit(s) on which the Pauli-Z gate is to be applied. If None, the Pauli-Z gate is applied to all qubits.
+        :param  name (str):  Name of the gate. Default is "Z"
+        
         """
         self.check_qubit_input_for_gate(ith_qbit)
        
         if ith_qbit == None:
-            for i in range(self.nqbits):
+            for i in range(1,self.nqbits+1):
                 self.addToCircuit(self.Z_2x2,i,name=(name+"_"+str(i)))
     
         elif type(ith_qbit) == int:
@@ -203,12 +251,10 @@ class QbitGate(gateMatrices,InputErrorCheck):
     
     def p(self,ith_qbit,phi=np.pi,name="Phase Shift"):
         """Phase Gate
-        Args:
-            ith_qbit (nth qubit): ith_qbit (nth qubit): Selects the qubit(s) to be operated on. If None, applies to all qubits. 
-            Multiple Qubits can be selected by passing a list of qubits, but the qubits must be adjacent.
-            
-            name (str): Name of the gate. Default is "Phase"
-            
+        :param  ith_qbit (int):  The qubit on which the Phase gate is to be applied.
+        :param  phi (float):  The phase shift angle. Default is pi.
+        :param  name (str):  Name of the gate. Default is "Phase Shift"
+
         """
         self.check_qubit_input_for_gate(ith_qbit)
         assert type(ith_qbit) == int or  type(ith_qbit) == list , "Please select a qubit"
@@ -221,10 +267,8 @@ class QbitGate(gateMatrices,InputErrorCheck):
     
     def reflect(self,name="Reflection"):
         """Reflection Gate to reflect the state vector about the origin (first qubit).
-        Args:
-           
-            
-            name (str): Name of the gate. Default is "Reflection"
+        
+        :param  name (str):  Name of the gate. Default is "Reflection"
             
         """
         
@@ -233,10 +277,10 @@ class QbitGate(gateMatrices,InputErrorCheck):
     
     def cp(self,control_qbit,target_qbit,phi=np.pi,name="cPhase Shift"):
         """Controlled Phase Gate
-        Args:
-            ith_qbit (nth qubit): ith_qbit (nth qubit): Selects the qubit(s) to be operated on. Required.
-            jth_qbit (nth qubit): Selects the qubit(s) to be operated on. If None, applies to all qubits. Required.
-            Phi (float): Phase angle. Default is pi.
+        :param  control_qbit (int):  The control qubit.
+        :param  target_qbit (int):  The target qubit.
+        :param  phi (float):  The phase shift angle. Default is pi.
+        :param  name (str):  Name of the gate. Default is "cPhase Shift"
 
         """
       
@@ -262,9 +306,9 @@ class QbitGate(gateMatrices,InputErrorCheck):
                     
     def cx(self,control_qbit,target_qbit,name="CX"):
         """Controlled Pauli-X Gate
-        Args:
-            ith_qbit (nth qubit): ith_qbit (nth qubit): Selects the qubit(s) to be operated on. Required.
-            jth_qbit (nth qubit): Selects the qubit(s) to be operated on. If None, applies to all qubits. Required.
+        :param  control_qbit (int):  The control qubit.
+        :param  target_qbit (int):  The target qubit.
+        :param  name (str):  Name of the gate. Default is "CX"
 
         """
         
@@ -287,11 +331,12 @@ class QbitGate(gateMatrices,InputErrorCheck):
             else:
                 self.addToCircuit(self.CX_4x4,control_qbit,name=(name+"_"+str(target_qbit)))
                        
-    def cz(self,control_qbit,target_qbit):
+    def cz(self,control_qbit,target_qbit,name="CZ"):
         """ Controlled Pauli-Z Gate
-        Args:
-            ith_qbit (nth qubit): ith_qbit (nth qubit): Selects the qubit(s) to be operated on. Required.
-            jth_qbit (nth qubit): Selects the qubit(s) to be operated on. If None, applies to all qubits. Required.
+        :param  control_qbit (int):  The control qubit.
+        :param  target_qbit (int):  The target qubit.
+        :param  name (str):  Name of the gate. Default is "CZ"
+
         """
         self.check_qubit_input_for_cgate(control_qbit,target_qbit)
         assert type(control_qbit) == int, "The control qubit must be an integer. For multiple control qubits, use the the Multi-Controlled Z(mcz) Gate."
@@ -313,28 +358,40 @@ class QbitGate(gateMatrices,InputErrorCheck):
             else:
                 self.addToCircuit(self.cZ_4x4,control_qbit,name=("CZ_"+str(target_qbit)))
     
-    def swap(self,ith_qbit,jth_qbit,name="Swap"):
+    def swap(self,ith_qbit,jth_qbit,one_directional=False,name="Swap"):
         """Swap Gate
-        Args:
-            ith_qbit (nth qubit): ith_qbit (nth qubit): Selects the qubit(s) to be operated on. Required.
-            jth_qbit (nth qubit): Selects the qubit(s) to be operated on. If None, applies to all qubits. Required.
+        
+        :param  ith_qbit (int):  The first qubit.
+        :param  jth_qbit (int):  The second qubit.
+        :param  one_directional (bool):  If True, the swap gate is one directional. Default is False.
+        :param  name (str):  Name of the gate. Default is "Swap"
+
         """
         self.check_qubit_input_for_cgate(ith_qbit,jth_qbit)
         assert type(ith_qbit) and type(jth_qbit) == int, "The qubits must be integers."
-       
         self.swap_status.append([ith_qbit,jth_qbit])
         
         if jth_qbit - ith_qbit == 1:
+            print("Warning "+"The swap gate cannot be one directional for adjacent qubits.") if one_directional else None
             self.addToCircuit(self.swap_4x4, ith_qbit,name =(name + "({},{})".format(ith_qbit,jth_qbit)))
         else:
-            swap,self.unswap_4x4 = self.nonadjacent_swap(ith_qbit,jth_qbit)
-            self.addToCircuit(swap,name =(name + "({},{})".format(ith_qbit,jth_qbit)))
+            if one_directional:
+
+                    swap,self.unswap_matrix = self.nonadjacent_move(ith_qbit,jth_qbit)
+                    self.addToCircuit(swap,name =(name + "({},{})".format(ith_qbit,jth_qbit)))
+
+            else:
+                swap,self.unswap_matrix = self.nonadjacent_swap(ith_qbit,jth_qbit)
+                self.addToCircuit(swap,name =(name + "({},{})".format(ith_qbit,jth_qbit)))
+            
             
     def unswap(self,ith_qbit,jth_qbit,name="Unswap"):
-        """Unswap Gate
-            Args:
-            ith_qbit (nth qubit): ith_qbit (nth qubit): Selects the qubit(s) to be operated on. Required.
-            jth_qbit (nth qubit): Selects the qubit(s) to be operated on. If None, applies to all qubits. Required.
+        """Unswap Gate. Only allowed if the qubits were swapped before.
+        
+        :param  ith_qbit (int):  The first qubit.
+        :param  jth_qbit (int):  The second qubit.
+        :param  name (str):  Name of the gate. Default is "Unswap
+
         """
         self.check_qubit_input_for_cgate(ith_qbit,jth_qbit)
        
@@ -348,17 +405,17 @@ class QbitGate(gateMatrices,InputErrorCheck):
             #remove unswapped qubits from swap_status
             self.swap_status.remove([ith_qbit,jth_qbit])
         else:
-            self.addToCircuit(self.unswap_4x4,name =(name + "({},{})".format(ith_qbit,jth_qbit)))
+            self.addToCircuit(self.unswap_matrix,name =(name + "({},{})".format(ith_qbit,jth_qbit)))
             #remove unswapped qubits from swap_status
             self.swap_status.remove([ith_qbit,jth_qbit])
             
     def mcz(self,control_qubits,target_qubit,name="MCZ"):
         """Applies a multi-controlled Z gate.
-        Args:
-            control_qubits (list(int)): List of control qubits
-            target_qubit (int): Target qubit
-         
        
+        :param  control_qubits (list):  The control qubits.
+        :param  target_qubit (int):  The target qubit.
+        :param  name (str):  Name of the gate. Default is "MCZ"
+
         """
         self.check_qubit_input_for_gate(control_qubits)
         self.check_qubit_input_for_gate(target_qubit)
@@ -376,11 +433,10 @@ class QbitGate(gateMatrices,InputErrorCheck):
             self.unswap(control_qubits[-1]+1,target_qubit)
     def mct(self,control_qubits,target_qubit,name="MCT"):
         """Applies a multi-controlled Toffoli gate.
-        Args:
-            control_qubits (list(int)): List of control qubits
-            target_qubit (int): Target qubit
-         
-       
+        :param  control_qubits (list):  The control qubits.
+        :param  target_qubit (int):  The target qubit.
+        :param  name (str):  Name of the gate. Default is "MCT"
+
         """
         self.check_qubit_input_for_gate(control_qubits)
         self.check_qubit_input_for_gate(target_qubit)
@@ -398,9 +454,12 @@ class QbitGate(gateMatrices,InputErrorCheck):
             self.unswap(control_qubits[-1]+1,target_qubit)
             
     def t(self,control_qubits,target_qubit,name="Toffoli"):
-        """T Gate
-        Args:
-            qubit (nth qubit): Selects the qubit(s) to be operated on. Required.
+        """Toffoli Gate.
+        :param  control_qubits (list):  The control qubits.
+        :param  target_qubit (int):  The target qubit.
+        :param  name (str):  Name of the gate. Default is "Toffoli"
+        
+        
         """
         self.check_qubit_input_for_gate(control_qubits)
         self.check_qubit_input_for_gate(target_qubit)
@@ -418,12 +477,14 @@ class QbitGate(gateMatrices,InputErrorCheck):
             self.addToCircuit(self.toff,control_qubits,name=("MCZ_"+str(target_qubit)))
             self.unswap(control_qubits[-1]+1,target_qubit)
     #Internal Methods
-    def nonadjacent_swap(self,ith_qbit,jth_qbit):
-        """{Internal Method} Creates a swap gate for non-adjacent qubits.
-        Args:
-            ith_qbit (nth qubit): ith_qbit (nth qubit): Selects the qubit(s) to be operated on. Required.
-            jth_qbit (nth qubit): Selects the qubit(s) to be operated on. If None, applies to all qubits. Required.
-            unswap (bool): If true, creates an unswap gate.
+    def nonadjacent_move(self,ith_qbit,jth_qbit):
+        """{Internal Method} Creates a one-directional swap gate for non-adjacent qubits.
+        :param  ith_qbit (nth qubit): ith_qbit (nth qubit): Selects the qubit(s) to be operated on. Required.
+        :param  jth_qbit (nth qubit): Selects the qubit(s) to be operated on. If None, applies to all qubits. Required.
+        
+        :return: swap (ndarray): The swap gate.
+        :return: inv(swap) (ndarray): The inverse of the swap gate (for unswapping).
+
         """     
        
         swap = self.operation(self.swap_4x4,ith_qbit)
@@ -433,4 +494,23 @@ class QbitGate(gateMatrices,InputErrorCheck):
       
         return swap,inv(swap)
     
-  
+    def nonadjacent_swap(self,ith_qbit,jth_qbit):
+        """{Internal Method} Creates a swap gate for non-adjacent qubits.
+        
+        :param  ith_qbit (nth qubit): ith_qbit (nth qubit): Selects the qubit(s) to be operated on. Required.
+        :param  jth_qbit (nth qubit): Selects the qubit(s) to be operated on. If None, applies to all qubits. Required        
+        
+        :return: swap (ndarray): The swap gate.
+        :return: inv(swap) (ndarray): The inverse of the swap gate (for unswapping).
+        
+        """     
+       
+        swap = self.operation(self.swap_4x4,ith_qbit)  
+        for pos in range(ith_qbit+1,jth_qbit):
+            swap = swap @ self.operation(self.swap_4x4,pos)
+        for pos in range(jth_qbit-2,ith_qbit-1,-1):
+            swap = swap @ self.operation(self.swap_4x4,pos)  
+
+      
+        return swap,inv(swap)
+    

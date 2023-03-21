@@ -1,6 +1,18 @@
 """Unsorted Dictionary Search using Quantum Grover
 
-Problem : Search for a 5 letter word in a dictionary of 8192 words( actually close to 5K words but we added more words to simplify to the whole number of qubits).
+The file shows a possible application of Grover's Algorithm to a simple problem. 
+This was inspired to possibly set up a Circuit that can play wordle.
+
+Both Eager and Lazy methods are used to create separate circuits.
+
+Problem : Search for a 5 letter word in a dictionary of 8192 words( actually close to 5K words but we added more empty words to simplify to the whole number of qubits).
+"""
+"""
+Title: Quantum Circuit for Shor \n
+Author: Auro Varat Patnaik \n
+Date: 2023-03-07 \n
+Code version: 3.0 \n
+  
 """
 
 import sys
@@ -22,7 +34,7 @@ oracle = diags(np.where(dictionary == search_word,-1,1))
 
 
 #Eager Circuit
-Eager_Searcher = EagerCircuit(nqbits,"Grover")
+Eager_Searcher = EagerCircuit(nqbits,name="Grover")
 Eager_Searcher.h()
 Eager_Searcher.set_oracle(oracle)
 #Eager_Searcher.addToCircuit(gi) can also be used to avoid the for loop
@@ -32,8 +44,10 @@ for _ in range(Eager_Searcher.rotations):
     Eager_Searcher.h()
     Eager_Searcher.reflect()  
     Eager_Searcher.h()
-# Eager_Searcher.sequence()
+
 Eager_Searcher.measure()
+
+
 
 gi = rc.grover_iterate(nqbits,oracle)
 Lazy_Searcher = LazyCircuit(nqbits,"Grover")

@@ -1,15 +1,22 @@
-#play around to create your own circuit if you would like
+"""
+Flip a coin?
+
+This is a sample file to test the qCircuit modules. Feel Free to play around with building your own circuits."""
 import sys
-
-
-from resources.qCircuit import LazyCircuit
+sys.path.append("../resources")
+sys.path.append("./resources")
+import numpy as np
+from resources.qCircuit import LazyCircuit,EagerCircuit
 from resources.qComponents import reusableComponents as rc
 
+n = 1
+
+circuit = EagerCircuit(n,name="Simple Circuit")
+
+circuit.h()
 
 
-circuit = LazyCircuit(12,name="Simple Circuit")
-qft = rc.qft_dagger(8)
-print(qft.shape)
-circuit.addToCircuit(qft,ith_qbit=1,name="QFT")
-circuit.sequence()
+
 circuit.measure()
+
+circuit.output()

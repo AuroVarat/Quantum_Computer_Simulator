@@ -14,7 +14,8 @@ from matplotlib.colors import Normalize
 import matplotlib.cm as cm
 
 class qVisualiser():
-    
+    """ Qbit Visualiser Class has methods to visualise the state of a quantum register.
+    """
     def visualise_state_history(self):
         """Plots the state history of the quantum register as a quiver plot.
         """

@@ -1,3 +1,15 @@
+"""
+Grover Sample using Lazy Method, this is a sample program to show how to use the Lazy Method to create a Grover's Algorithm circuit.
+The MCZ gate is used to create a random oracle, which is then used to create a Grover's Algorithm circuit.
+It searches for marked states where the first three qubits are 1. Then it measures the first four qubits. This has potential to be used for a tic tac toe game.
+
+"""
+"""
+Title: Grover Sample for Lazy Method \n
+Author: Auro Varat Patnaik \n
+Date: 2023-03-07 \n
+Code version: 3.0 \n 
+"""
 
 import numpy as np
 import sys
@@ -20,10 +32,6 @@ import sys
 # nqubits = int(sys.argv[1])
 nqubits = 10
 
-
-max_dataset_size = 2**nqubits
-dataset_size = 2**nqubits
-assert dataset_size <= max_dataset_size, "dataset size must be less than or equal to 2**nqbits"
 def main():
     #%%
     #create oracle, marks a state with 1 in the first 6 qubits
@@ -47,7 +55,8 @@ def main():
 
     Q.addToCircuit(gi,name="Grover Iterator")
 
-    Q.measure()
+    Q.measure(4)
+    Q.output() # returns the probability of each state, prints the state with the highest probability
 
   
     #%%
