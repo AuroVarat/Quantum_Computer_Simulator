@@ -51,9 +51,11 @@
 <span id="preloader"></span><h1>Preloader<a class="headerlink" href="#module-qPreloader" title="Permalink to this headline">¶</a></h1>
 <p>Preloader Class preloads all the commonly used gate matrices and other constants required for the simulation.</p>
 <dl class="py class">
-<dt class="sig sig-object py" id="qPreloader.gateMatrices">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qPreloader.</span></span><span class="sig-name descname"><span class="pre">gateMatrices</span></span><a class="headerlink" href="#qPreloader.gateMatrices" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="qPreloader.GateMatrices">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qPreloader.</span></span><span class="sig-name descname"><span class="pre">GateMatrices</span></span><a class="headerlink" href="#qPreloader.GateMatrices" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Gate Matrices pre-calculates all the commonly used gate matrices and other constants required for the simulation. 
+It also contains addControl method to add control qbits to a gate matrix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables</dt>
 <dd class="field-odd"><ul class="simple">
@@ -65,7 +67,7 @@
 <li><p><strong>swap_4x4</strong> – Swap Matrix: <span class="math notranslate nohighlight">\(swap = \begin{bmatrix} 1 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 1 &amp; 0 \\ 0 &amp; 1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 1 \end{bmatrix}\)</span></p></li>
 <li><p><strong>cX_4x4</strong> – Controlled Pauli X Matrix: <span class="math notranslate nohighlight">\(CX = \begin{bmatrix} 1 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 1 \\ 0 &amp; 0 &amp; 1 &amp; 0 \end{bmatrix}\)</span></p></li>
 <li><p><strong>cZ_4x4</strong> – Controlled Pauli Z Matrix: <span class="math notranslate nohighlight">\(CZ = \begin{bmatrix} 1 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; -1 \end{bmatrix}\)</span></p></li>
-<li><p><strong>t</strong> – Toffoli Matrix <span class="math notranslate nohighlight">\(t = \begin{bmatrix} 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 \\ 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 \end{bmatrix}\)</span></p></li>
+<li><p><strong>toff</strong> – Toffoli Gate: <span class="math notranslate nohighlight">\(toff = \begin{bmatrix} 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 \end{bmatrix}\)</span></p></li>
 <li><p><strong>mct</strong> – Multi-Controlled Toffoli Gate: <span class="math notranslate nohighlight">\(mct = \begin{bmatrix} 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 \\ 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 \end{bmatrix}\)</span></p></li>
 <li><p><strong>mcZ</strong> – Multi-Controlled Pauli Z Gate: <span class="math notranslate nohighlight">\(mcZ = \begin{bmatrix} 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; -1 \end{bmatrix}\)</span></p></li>
 <li><p><strong>reflection</strong> – Reflection Matrix: <span class="math notranslate nohighlight">\(reflection = \begin{bmatrix} 1 &amp; 0 \\ 0 &amp; -1 \end{bmatrix}\)</span></p></li>
@@ -73,8 +75,8 @@
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="qPreloader.gateMatrices.addControl">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">addControl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control_qubits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qPreloader.gateMatrices.addControl" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="qPreloader.GateMatrices.addControl">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">addControl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control_qubits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qPreloader.GateMatrices.addControl" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add control qubits to a gate</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -114,13 +116,14 @@
     
   
   
-    <p class="caption" role="heading"><span class="caption-text">Modules:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Content:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Circuit.html">Circuit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Register.html">Register</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Gate.html">Gates</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Preloader</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Visualisation.html">Register</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Requirements.html">Requirements</a></li>
 </ul>
 
   

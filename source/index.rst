@@ -4,19 +4,20 @@
    contain the root `toctree` directive.
 
 Documentation for Qbit Quantum Simulator
-================================
+=========================================
+.. uml:: str.puml
+ 
 
 .. toctree::
    :maxdepth: 2
-   :caption: Modules:
+   :caption: Content:
 
    Circuit
    Register
    Gate
    Preloaders
    Visualisation
-
-
+   Requirements
 
 Indices and tables
 ==================
@@ -24,3 +25,6 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+
+

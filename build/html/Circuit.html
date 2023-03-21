@@ -52,7 +52,7 @@
 It has two subclasses LazyCircuit and EagerCircuit.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="qCircuit.EagerCircuit">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qCircuit.</span></span><span class="sig-name descname"><span class="pre">EagerCircuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nqbits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'BasicQregister'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qCircuit.EagerCircuit" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qCircuit.</span></span><span class="sig-name descname"><span class="pre">EagerCircuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nqbits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'BasicQregister'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cqbits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qCircuit.EagerCircuit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="Visualisation.html#qRegister.QbitRegister" title="qRegister.QbitRegister"><code class="xref py py-class docutils literal notranslate"><span class="pre">qRegister.QbitRegister</span></code></a></p>
 <p>Qbit Register Class initialises a quantum register with nqbits qbits and initialises all qbits to <a href="#id3"><span class="problematic" id="id4">|</span></a>0&gt;l,
 and contains methods to apply gates to the qbits in the register.</p>
@@ -71,32 +71,52 @@ and contains methods to apply gates to the qbits in the register.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="qCircuit.EagerCircuit.measure">
+<span class="sig-name descname"><span class="pre">measure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_nqbits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qCircuit.EagerCircuit.measure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Measures the quantum register in the computational basis and returns the result. If i_nqbits is None then all qbits are measured and the result is returned as a string. If i_nqbits is an integer then the first i_nqbits are measured and the result is returned as a string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>optional</strong><strong>)</strong> (<em>i_nqbits</em><em> (</em><em>int</em><em>,</em>) – Number of qbits to be measured. Defaults to None.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(str) Measurement result</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="qCircuit.EagerCircuit.record_marked_state">
 <span class="sig-name descname"><span class="pre">record_marked_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">marked_state_index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qCircuit.EagerCircuit.record_marked_state" title="Permalink to this definition">¶</a></dt>
-<dd><p>Records the Amplitude of the marked state.</p>
+<dd><p>Records the Amplitude of the marked state.  Needs to be called after the oracle is applied and before the measurement is taken.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="qCircuit.EagerCircuit.record_state_vector_projection">
 <span class="sig-name descname"><span class="pre">record_state_vector_projection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qCircuit.EagerCircuit.record_state_vector_projection" title="Permalink to this definition">¶</a></dt>
-<dd><p>Records the projection of the state vector onto the computational basis.</p>
+<dd><p>Records the projection of the state vector onto the computational basis.
+Needs to be called after the oracle is applied and before the measurement is taken.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="qCircuit.LazyCircuit">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qCircuit.</span></span><span class="sig-name descname"><span class="pre">LazyCircuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nqbits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'qregister'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qCircuit.LazyCircuit" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qCircuit.</span></span><span class="sig-name descname"><span class="pre">LazyCircuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nqbits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'qregister'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cqbits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qCircuit.LazyCircuit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="Visualisation.html#qRegister.QbitRegister" title="qRegister.QbitRegister"><code class="xref py py-class docutils literal notranslate"><span class="pre">qRegister.QbitRegister</span></code></a></p>
 <p>Qbit Register Class initialises a quantum register with nqbits qbits and initialises all qbits to <a href="#id5"><span class="problematic" id="id6">|</span></a>0&gt;l,
 and contains methods to apply gates to the qbits in the register.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="qCircuit.LazyCircuit.addToCircuit">
 <span class="sig-name descname"><span class="pre">addToCircuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ith_qbit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qCircuit.LazyCircuit.addToCircuit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Applies a gate to the ith qbit in the quantum register. If the gate is a 2D gate then it is applied to the ith and (i+1)th qbit.
-Args:
-:param    gate (Numpy Array): Gate to be applied
-:param    ith_qbit (int): ith qbit to be operated on</p>
+<dd><p>Applies a gate to the ith qbit in the quantum register. If the gate is a 2D gate then it is applied to the ith and (i+1)th qbit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Array</strong><strong>)</strong> (<em>gate</em><em> (</em><em>Numpy</em>) – Gate to be applied</p></li>
+<li><p><strong>(</strong><strong>int</strong><strong>)</strong> (<em>ith_qbit</em>) – ith qbit to be operated on</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -107,11 +127,14 @@ Args:
 
 <dl class="py method">
 <dt class="sig sig-object py" id="qCircuit.LazyCircuit.measure">
-<span class="sig-name descname"><span class="pre">measure</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qCircuit.LazyCircuit.measure" title="Permalink to this definition">¶</a></dt>
-<dd><p>Measures the quantum register in the computational basis and returns the result.</p>
+<span class="sig-name descname"><span class="pre">measure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_nqbits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qCircuit.LazyCircuit.measure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Measures the quantum register in the computational basis and returns the result. If i_nqbits is None then all qbits are measured and the result is returned as a string. If i_nqbits is an integer then the first i_nqbits are measured and the result is returned as a string.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Measurement result (1D Numpy Array)</p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>optional</strong><strong>)</strong> (<em>i_nqbits</em><em> (</em><em>int</em><em>,</em>) – Number of qbits to be measured. Defaults to None.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(str) Measurement result</p>
 </dd>
 </dl>
 </dd></dl>
@@ -152,13 +175,14 @@ Args:
     
   
   
-    <p class="caption" role="heading"><span class="caption-text">Modules:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Content:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Circuit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Register.html">Register</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Gate.html">Gates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Preloaders.html">Preloader</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Visualisation.html">Register</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Requirements.html">Requirements</a></li>
 </ul>
 
   

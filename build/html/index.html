@@ -48,14 +48,171 @@
           
   <section id="documentation-for-qbit-quantum-simulator">
 <h1>Documentation for Qbit Quantum Simulator<a class="headerlink" href="#documentation-for-qbit-quantum-simulator" title="Permalink to this headline">¶</a></h1>
+<p class="plantuml">
+<img src="_images/plantuml-78a12c5be0bb3a981c82f9166282d239b41d12ad.png" alt="&#64;startuml
+!define AWSPUML_CONFIG_DPI 300
+!define AWSPUML_CONFIG_WIDTH 2100
+!define AWSPUML_CONFIG_HEIGHT 2970
+!define AWSPUML_CONFIG_SIZE {14,14}
+
+
+package qPreloader {
+    class GateMatrices {
+        - Hadamard
+        - PauliX
+        - PauliY
+        - PauliZ
+        - PhaseShift
+        - MultiControlledToffoli
+        - CNot
+        - Swap
+        - Toffoli
+        - ControlledPhaseShift
+        - Reflect 
+
+        + addControl(gate: 2D Array, control : int) : QbitGate
+
+    }
+
+}
+
+package qGates {
+    class QbitGate{
+        - swap_status : list of tuples
+        {static} + power(gate: 2D Array, power : int) : 2D Array
+        + operation(gate: 2D Array, ith_qubit: int) : 2D Array
+        + set_oracle(oracle: 2D Array, recorder: bool)
+        + oracle() : 2D Array
+        + other methods for gate GateMatrices
+    
+    }
+    class InputErrorCheck {
+        + is_series(input: list) : bool
+        + check_qubit_input_for_gate(ith_qubit: int/list) 
+        + check_qubit_input_for_cgate(ith_qubit: int/list,jth_qubit: int/list)
+        + check_qubit_input_for_mcgate(control_qubit: int/list,target_qubit: int/list)
+
+
+    }
+}
+
+package qRegister {
+    class QbitRegister {
+            - RegisterName : str
+            - nqbits : int
+            - cqbits : int
+            - N : int
+            - M : int = 1
+            - basisSpace : numpy.ndarray
+            - circuitSeq : list
+            - registerStates : list
+            - state_history : list
+            
+            + __init__(nqbits:int, cqbits:int=nqbits, name:str)
+            + __str__() : str : &quot;prints the circuit Sequence&quot;
+            + set_state(): void : &quot;sets the state of the register&quot;
+            + output(): void : &quot;prints the state of the register probablities. 
+            Can be called only measuremnet is done&quot;
+            - measure_one_qubit(i_nqbits:int): void : &quot;collapse the state of the qubits upto ith qubit&quot;
+
+    }
+
+}
+
+package qCircuit {
+    class LazyCircuit {
+
+        - timer: float  : &quot;time taken to execute the circuit. 
+        Records the start time.&quot;                      
+        - circuit: callable : &quot;function that executes the circuit, 
+        takes a gate everytime it is called&quot;     
+
+        + __init__(self, nqbits=2, name=&quot;qregister&quot;) : void : &quot;initializes the circuit&quot;
+
+    }
+    class EagerCircuit {
+            
+            - timer: float  : &quot;time taken to execute the circuit. 
+            Records the start time.&quot;                      
+            - circuit: callable : &quot;function that executes the circuit, 
+            takes a gate everytime it is called&quot;     
+    
+            + __init__(self, nqbits=2, name=&quot;qregister&quot;) : void : &quot;initializes the circuit&quot;
+    }
+}
+
+
+
+package qComponent {
+    class ReusableComponent {
+        + grover_iterate() : void : &quot;grover iteration&quot;
+        + qft_dagger() : void : &quot;Inverse Quantum Fourier Transform&quot;
+        + qft() : void : &quot;Quantum Fourier Transform&quot;
+     
+    }
+
+
+
+}
+
+class qVisualiser {
+    + visualise_state_history() : void : &quot;visualises the state history of 
+    the register in the Baisis Space of 
+    Hilbert Space of the register initial state and the final target state&quot;
+    + visualise_probability() : void : &quot;visualises the probability of the 
+    probability of the states of the register&quot;
+    + visualise_marked_state() : void : &quot;visualises the marked states 
+    in the basis space of the register&quot;
+
+}
+InputErrorCheck --&gt; QbitGate
+GateMatrices --&gt; QbitGate
+QbitGate --&gt; QbitRegister
+QbitRegister --&gt; LazyCircuit
+QbitRegister --&gt; EagerCircuit
+LazyCircuit --&gt; ReusableComponent
+
+qVisualiser --&gt; QbitRegister
+ReusableComponent --&gt; &quot;Shor Sample&quot;
+LazyCircuit --&gt; lazyPrograms
+EagerCircuit --&gt; eagerPrograms
+
+LazyCircuit --&gt; dict_search
+EagerCircuit --&gt; dict_search
+
+
+package lazyPrograms {
+    class &quot;Grover Sample&quot; {
+        &quot;Sample Program for Grover's Algorithm.&quot;
+    }
+    class &quot;Shor Sample&quot; {
+        &quot;Sample Program for Shor's Algorithm.&quot;
+    }
+}
+
+package eagerPrograms {
+    class &quot;Grover Sample&quot; {
+        &quot;Sample Program for Grover's Algorithm.&quot;
+    }
+}
+
+class dict_search {
+    + EasgerSearch() : void : &quot;dictionary search using eager circuit&quot;
+    + LazySearch() : void :&quot;dictionary search using lazy circuit&quot;
+}
+
+&#64;enduml
+"/>
+</p>
 <div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Modules:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Content:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Circuit.html">Circuit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Register.html">Register</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Gate.html">Gates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Preloaders.html">Preloader</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Visualisation.html">Register</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Requirements.html">Requirements</a></li>
 </ul>
 </div>
 </section>
@@ -89,13 +246,14 @@
     
   
   
-    <p class="caption" role="heading"><span class="caption-text">Modules:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Content:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Circuit.html">Circuit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Register.html">Register</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Gate.html">Gates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Preloaders.html">Preloader</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Visualisation.html">Register</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Requirements.html">Requirements</a></li>
 </ul>
 
   

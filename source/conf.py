@@ -18,9 +18,12 @@ release = '2.0'
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ['sphinx.ext.autodoc']
+extensions = ['sphinx.ext.autodoc','sphinxcontrib.plantuml']
 
-
+plantuml = 'java -jar plantuml.jar'
+plantuml_output_format = 'png'
+plantuml_latex_output_format = 'pdf'
+plantuml_use_uptodate_check = True
 
 
 templates_path = ['_templates']

@@ -52,19 +52,52 @@
 It contains method for qbits in the register.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="qRegister.QbitRegister">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qRegister.</span></span><span class="sig-name descname"><span class="pre">QbitRegister</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nqbits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'register'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qRegister.QbitRegister" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qRegister.</span></span><span class="sig-name descname"><span class="pre">QbitRegister</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nqbits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cqbits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'register'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qRegister.QbitRegister" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="Gate.html#qGates.QbitGate" title="qGates.QbitGate"><code class="xref py py-class docutils literal notranslate"><span class="pre">qGates.QbitGate</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">qVisualiser.qVisualiser</span></code></p>
 <p>Qbit Register Class initialises a quantum register with nqbits qbits and initialises all qbits to <a href="#id3"><span class="problematic" id="id4">|</span></a>0&gt;l,
 and contains methods to apply gates to the qbits in the register.</p>
 <dl class="py method">
+<dt class="sig sig-object py" id="qRegister.QbitRegister.measure_one_qubit">
+<span class="sig-name descname"><span class="pre">measure_one_qubit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_nqbit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qRegister.QbitRegister.measure_one_qubit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Measures the state of a single qbit in the quantum register. The qbit is specified by the index i_nqbits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>optional</strong><strong>)</strong> (<em>i_nqbits</em><em> (</em><em>int</em><em>,</em>) – The Qubit to collapse. Required.</p></li>
+<li><p><strong>float</strong> – The collapsed state of the specified qbit.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="qRegister.QbitRegister.output">
 <span class="sig-name descname"><span class="pre">output</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qRegister.QbitRegister.output" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Prints the output of the quantum register probabilities in the basis space. Shows the states with the maximum probability.
+This method should be called after the measurement of the register.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>basisSpace (list): The basis space of the quantum register.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qRegister.QbitRegister.sequence">
+<span class="sig-name descname"><span class="pre">sequence</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qRegister.QbitRegister.sequence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints the circuit sequence of the quantum register. Alternative to str() method.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="qRegister.QbitRegister.set_state">
 <span class="sig-name descname"><span class="pre">set_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qRegister.QbitRegister.set_state" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Sets the state of the quantum register to the state specified by the input state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param</dt>
+<dd class="field-odd"><p>state (int/list): can be a int showing the qubit state(“110”) or list of qubit states([ [1,0],[0,1],[0.5,0.5]]). The list supports float values.</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -91,13 +124,14 @@ and contains methods to apply gates to the qbits in the register.</p>
     
   
   
-    <p class="caption" role="heading"><span class="caption-text">Modules:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Content:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Circuit.html">Circuit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Register.html">Register</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Gate.html">Gates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Preloaders.html">Preloader</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Register</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Requirements.html">Requirements</a></li>
 </ul>
 
   
