@@ -1,2 +1,1 @@
-[1,0]
-[0,1]
+Simulating a quantum computer using quantum algorithms. 
